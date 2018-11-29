@@ -45,4 +45,9 @@ class OsController(private val osService: OsService) {
             if (it.isPresent) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
         }
     }
+
+    @GetMapping("")
+    fun getOsById(): ResponseEntity<*> {
+        return ResponseEntity("hello", HttpStatus.OK)
+    }
 }
