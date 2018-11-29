@@ -46,7 +46,7 @@ class OsController(private val osService: OsService) {
         }
     }
 
-    @GetMapping("")
+    @GetMapping("test")
     fun getOsById(): ResponseEntity<*> {
         return ResponseEntity("hello", HttpStatus.OK)
     }
