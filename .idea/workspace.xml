@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5c84cbb9-8327-42de-bd62-b20136ae2ccd" name="Default Changelist" comment="test">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/LoginController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/MessageJson.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Entity/Role.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Entity/User.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Entity/UserDaoPrincipal.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/UserRepository.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/AccountCredentials.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/JWTAuthenticationFilter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/JWTLoginFilter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/TokenAuthenticationService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/WebSecurityConfig.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/UserDetailServiceImpl.kt" afterDir="false" />
+    <list default="true" id="5c84cbb9-8327-42de-bd62-b20136ae2ccd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/4.8/fileChanges/last-build.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.8/fileContent/fileContent.lock" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.8/fileHashes/fileHashes.bin" beforeDir="false" />
@@ -26,7 +14,6 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/vcsWorkingDirs/gc.properties" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/META-INF/templates.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/kleknersrevice/templates/Application.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/kotlin/main/com/kleknersrevice/templates/ApplicationKt.class" beforeDir="false" />
@@ -150,34 +137,6 @@
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/gradle-format-version.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/kotlin/compileKotlin/last-build.bin" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Application.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/ChemicalTypeController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/ChemicalTypeController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/DeviceController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/DeviceController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/FilmController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/FilmController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/LuminophoreController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/LuminophoreController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/OsController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/OsController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/TemplateController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/TemplateController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Entity/Device.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Entity/Device.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/ChemicalTypeRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/ChemicalTypeRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/DeviceRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/DeviceRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/FilmRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/FilmRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/LuminophoreRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/LuminophoreRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/OSRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/OSRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/TemplateRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Repository/TemplateRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/ChemicalTypeService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/ChemicalTypeService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/DeviceService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/DeviceService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/FilmService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/FilmService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/ChemicalTypeServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/ChemicalTypeServiceImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/DeviceServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/DeviceServiceImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/FilmServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/FilmServiceImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/LuminophoreServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/LuminophoreServiceImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/OsServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/OsServiceImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/TemplateServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/Impl/TemplateServiceImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/LuminophoreService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/LuminophoreService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/OsService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/OsService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/TemplateService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Service/TemplateService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -329,7 +288,7 @@
           <entry key="kt" value="174" />
           <entry key="luminophore" value="1" />
           <entry key="os" value="2" />
-          <entry key="properties" value="3" />
+          <entry key="properties" value="4" />
           <entry key="sql" value="9" />
           <entry key="users" value="7" />
         </counts>
@@ -342,7 +301,7 @@
           <entry key="Groovy" value="4" />
           <entry key="JAVA" value="13" />
           <entry key="Kotlin" value="174" />
-          <entry key="Properties" value="3" />
+          <entry key="Properties" value="4" />
           <entry key="SQL" value="1" />
           <entry key="Scratch" value="8" />
         </counts>
@@ -353,17 +312,17 @@
           <entry key="dummy" value="7" />
           <entry key="gradle" value="7" />
           <entry key="kt" value="9132" />
-          <entry key="properties" value="116" />
+          <entry key="properties" value="124" />
           <entry key="sql" value="49" />
-          <entry key="txt" value="5" />
+          <entry key="txt" value="39" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="7" />
           <entry key="Kotlin" value="9132" />
-          <entry key="PLAIN_TEXT" value="12" />
-          <entry key="Properties" value="116" />
+          <entry key="PLAIN_TEXT" value="46" />
+          <entry key="Properties" value="124" />
           <entry key="SQL" value="8" />
           <entry key="Scratch" value="106" />
         </counts>
@@ -372,18 +331,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/JWTLoginFilter.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-145">
-              <caret line="32" column="34" selection-start-line="32" selection-start-column="34" selection-end-line="32" selection-end-column="34" />
-              <folding>
-                <element signature="e#53#742#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/WebSecurityConfig.kt">
           <provider selected="true" editor-type-id="text-editor">
@@ -441,11 +388,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/TemplateController.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-2257">
               <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
             </state>
           </provider>
         </entry>
@@ -986,7 +942,6 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/ddd4b556-146e-4588-b903-4e932c89a211/console.sql" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Entity/User.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/JWTLoginFilter.kt" />
-        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/OsController.kt" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/7f6f8416-dd41-4440-9d8d-a6588b5dce45/console.sql" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Entity/Role.kt" />
@@ -994,6 +949,7 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/WebSecurityConfig.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/DeviceController.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/Controller/LuminophoreController.kt" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
       </list>
     </option>
   </component>
@@ -1125,7 +1081,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544984891493" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544985172895" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Vrashatel-master" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -1238,7 +1194,7 @@
       <workItem from="1544628019899" duration="17174000" />
       <workItem from="1544698974203" duration="2174000" />
       <workItem from="1544804463831" duration="1566000" />
-      <workItem from="1544972518972" duration="7573000" />
+      <workItem from="1544972518972" duration="7847000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1543521721694</created>
@@ -1247,11 +1203,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543521721694</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Adding login and 2 users role">
+      <created>1544985143729</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1544985143730</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="102286000" />
+    <option name="totallyTimeSpent" value="102560000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1264,6 +1227,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22617246" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1345,7 +1309,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test" />
-    <option name="LAST_COMMIT_MESSAGE" value="test" />
+    <MESSAGE value="Adding login and 2 users role" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding login and 2 users role" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-commons/2.0.11.RELEASE/1c5bc12333a0e4a9b6e96d370550a2eec682b611/spring-data-commons-2.0.11.RELEASE-sources.jar!/org/springframework/data/repository/query/QueryByExampleExecutor.java">
@@ -1515,13 +1480,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ddd4b556-146e-4588-b903-4e932c89a211/console.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1678,6 +1636,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2257">
           <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
         </state>
       </provider>
     </entry>
