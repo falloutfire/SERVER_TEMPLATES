@@ -67,7 +67,7 @@ class DeviceController(private val deviceService: DeviceService, private val osS
         }
     }
 
-    @PostMapping("find_by_os")
+    @GetMapping("find_by_os")
     fun getAllByOs(@RequestBody os: OS): ResponseEntity<*> {
         return osService.getOsById(os.id).let {
             if (it.isPresent) ResponseEntity(

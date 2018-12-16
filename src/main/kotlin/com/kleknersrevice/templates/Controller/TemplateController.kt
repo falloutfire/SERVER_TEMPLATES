@@ -102,7 +102,7 @@ class TemplateController(
         }
     }
 
-    @PostMapping("find_by_device")
+    @GetMapping("find_by_device")
     fun getAllByDevice(@RequestBody device: Device): ResponseEntity<*> {
         return deviceService.getDeviceById(device.id).let {
             if (it.isPresent) ResponseEntity(
@@ -117,7 +117,7 @@ class TemplateController(
         }
     }
 
-    @PostMapping("find_by_luminophore")
+    @GetMapping("find_by_luminophore")
     fun getAllByLuminophore(@RequestBody luminophore: Luminophore): ResponseEntity<*> {
         return luminophoreService.getLuminophoreById(luminophore.id).let {
             if (it.isPresent) ResponseEntity(
@@ -132,7 +132,7 @@ class TemplateController(
         }
     }
 
-    @PostMapping("find_by_film")
+    @GetMapping("find_by_film")
     fun getAllByFilm(@RequestBody film: Film): ResponseEntity<*> {
         return filmService.getFilmById(film.id).let {
             if (it.isPresent) ResponseEntity(
@@ -147,12 +147,12 @@ class TemplateController(
         }
     }
 
-    @PostMapping("find_by_color/{colorScheme}")
+    @GetMapping("find_by_color/{colorScheme}")
     fun getAllByColorScheme(@PathVariable(value = "colorScheme") colorScheme: ColorScheme): ResponseEntity<*> {
         return ResponseEntity(templateService.getAllByColorScheme(colorScheme), HttpStatus.OK)
     }
 
-    @PostMapping("find_by_all")
+    @GetMapping("find_by_all")
     fun getAllByAllParameters(@RequestBody templateContext: TemplateContext): ResponseEntity<*> {
         deviceService.findDevice(templateContext.device).let {
             if (!it.isPresent) return ResponseEntity(
