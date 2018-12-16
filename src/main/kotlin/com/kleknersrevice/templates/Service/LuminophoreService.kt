@@ -9,4 +9,5 @@ interface LuminophoreService {
     fun updateLuminophore(luminophore: Luminophore)
     fun allLuminophore(): List<Luminophore>
     fun getLuminophoreById(id: Long): Optional<Luminophore>
+    fun findLuminophore(luminophore: Luminophore): Optional<Luminophore>
 }

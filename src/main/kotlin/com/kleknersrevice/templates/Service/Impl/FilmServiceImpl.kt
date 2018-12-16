@@ -10,6 +10,10 @@ import java.util.*
 @Service
 class FilmServiceImpl(private val filmRepository: FilmRepository) : FilmService {
 
+    override fun findFilm(film: Film): Optional<Film> {
+        return filmRepository.findFilm(film.name, film.color, film.chemicalType)
+    }
+
     override fun addFilm(film: Film) {
         filmRepository.saveAndFlush(film)
     }

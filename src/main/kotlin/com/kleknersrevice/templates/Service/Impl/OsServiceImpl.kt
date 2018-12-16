@@ -9,6 +9,10 @@ import java.util.*
 @Service
 class OsServiceImpl(private val osRepository: OSRepository) : OsService {
 
+    override fun getOs(os: OS): Optional<OS> {
+        return osRepository.findOs(os.name, os.version)
+    }
+
     override fun addOs(os: OS) {
         osRepository.saveAndFlush(os)
     }

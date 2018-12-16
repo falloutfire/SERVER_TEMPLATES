@@ -9,6 +9,10 @@ import java.util.*
 @Service
 class ChemicalTypeServiceImpl(private val chemicalTypeRepository: ChemicalTypeRepository) : ChemicalTypeService {
 
+    override fun findChemicalType(chemicalType: ChemicalType): Optional<ChemicalType> {
+        return chemicalTypeRepository.findChemicalType(chemicalType.type)
+    }
+
     override fun addChemicalType(chemicalType: ChemicalType) {
         chemicalTypeRepository.saveAndFlush(chemicalType)
     }

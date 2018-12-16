@@ -14,4 +14,5 @@ interface TemplateService {
     fun getAllByFilm(film: Film): List<Template>
     fun getAllByColorScheme(colorScheme: ColorScheme): List<Template>
     fun getAllByAllParameters(device: Device, film: Film, luminophore: Luminophore): List<Template>
+    fun findTemplate(template: Template): Optional<Template>
 }

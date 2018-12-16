@@ -11,38 +11,57 @@ import org.springframework.web.bind.annotation.*
 class ChemicalTypeController(private val chemicalTypeService: ChemicalTypeService) {
 
     @PostMapping("")
-    fun addChemicalType(@RequestBody chemicalType: ChemicalType): ResponseEntity<HttpStatus> {
-        chemicalTypeService.addChemicalType(chemicalType)
-        return ResponseEntity(HttpStatus.CREATED)
+    fun addChemicalType(@RequestBody chemicalType: ChemicalType): ResponseEntity<*> {
+        return chemicalTypeService.findChemicalType(chemicalType).let {
+            if (!it.isPresent) {
+                chemicalTypeService.addChemicalType(chemicalType)
+                ResponseEntity(messageJson(201, "ChemicalType $chemicalType created"), HttpStatus.CREATED)
+            } else {
+                ResponseEntity(messageJson(200, "ChemicalType $chemicalType already exist"), HttpStatus.OK)
+            }
+        }
     }
 
     @GetMapping("")
-    fun allChemicalTypes(): ResponseEntity</*List<ChemicalType>*/*> {
+    fun allChemicalTypes(): ResponseEntity<*> {
         return chemicalTypeService.allChemicalType().let {
-            if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
+            if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(
+                messageJson(404),
+                HttpStatus.NOT_FOUND
+            )
         }
     }
 
     @GetMapping("{id}")
     fun getChemicalTypeById(@PathVariable(value = "id") chemicalTypeId: Long): ResponseEntity<*> {
         return chemicalTypeService.getChemicalTypeById(chemicalTypeId).let {
-            if (it.isPresent) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
+            if (it.isPresent) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(
+                messageJson(404, "ChemicalType $chemicalTypeId not found"),
+                HttpStatus.NOT_FOUND
+            )
         }
     }
 
     @DeleteMapping("{id}")
-    fun deleteChemicalTypeById(@PathVariable(value = "id") chemicalTypeId: Long): ResponseEntity<HttpStatus> {
+    fun deleteChemicalTypeById(@PathVariable(value = "id") chemicalTypeId: Long): ResponseEntity<*> {
         return chemicalTypeService.getChemicalTypeById(chemicalTypeId).let {
             if (it.isPresent) {
                 chemicalTypeService.deleteChemicalType(chemicalTypeId)
-                ResponseEntity(HttpStatus.OK)
-            } else ResponseEntity(HttpStatus.NOT_FOUND)
+                ResponseEntity(messageJson(201, "ChemicalType $chemicalTypeId deleted"), HttpStatus.OK)
+            } else ResponseEntity(messageJson(404, "ChemicalType $chemicalTypeId not found"), HttpStatus.NOT_FOUND)
         }
     }
 
     @PutMapping("")
-    fun updateChemicalType(@RequestBody chemicalType: ChemicalType): ResponseEntity<HttpStatus> {
-        chemicalTypeService.updateChemicalType(chemicalType)
-        return ResponseEntity(HttpStatus.OK)
+    fun updateChemicalType(@RequestBody chemicalType: ChemicalType): ResponseEntity<*> {
+        return chemicalTypeService.getChemicalTypeById(chemicalType.id)
+            .let {
+                if (it.isPresent) {
+                    chemicalTypeService.updateChemicalType(chemicalType)
+                    ResponseEntity(messageJson(201, "ChemicalType $chemicalType updated"), HttpStatus.OK)
+                } else {
+                    ResponseEntity(messageJson(404, "ChemicalType $chemicalType not found"), HttpStatus.NOT_FOUND)
+                }
+            }
     }
 }

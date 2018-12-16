@@ -11,4 +11,5 @@ interface FilmService {
     fun allFilm(): List<Film>
     fun getFilmById(id: Long): Optional<Film>
     fun getAllByChemicalType(chemicalType: ChemicalType): List<Film>
+    fun findFilm(film: Film): Optional<Film>
 }

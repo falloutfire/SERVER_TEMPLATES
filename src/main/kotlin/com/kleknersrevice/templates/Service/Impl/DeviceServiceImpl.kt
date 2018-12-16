@@ -10,6 +10,17 @@ import java.util.*
 @Service
 class DeviceServiceImpl(private val deviceRepository: DeviceRepository) : DeviceService {
 
+    override fun findDevice(device: Device): Optional<Device> {
+        return deviceRepository.findDevice(
+            device.name,
+            device.os,
+            device.camDiafragma,
+            device.size,
+            device.focus,
+            device.stabilization
+        )
+    }
+
     override fun addDevice(device: Device) {
         deviceRepository.saveAndFlush(device)
     }

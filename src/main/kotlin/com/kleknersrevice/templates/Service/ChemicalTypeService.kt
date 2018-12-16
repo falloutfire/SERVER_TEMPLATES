@@ -9,4 +9,5 @@ interface ChemicalTypeService {
     fun updateChemicalType(chemicalType: ChemicalType)
     fun allChemicalType(): List<ChemicalType>
     fun getChemicalTypeById(id: Long): Optional<ChemicalType>
+    fun findChemicalType(chemicalType: ChemicalType): Optional<ChemicalType>
 }

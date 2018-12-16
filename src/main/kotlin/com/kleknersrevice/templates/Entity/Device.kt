@@ -19,7 +19,7 @@ class Device(
     @Column(name = "Cam_Diafragma")
     var camDiafragma: Double,
     @Column(name = "Size")
-    var size: String,
+    var size: Long,
     @Column(name = "Focus")
     var focus: Double,
     @Column(name = "Optic_Stabilization")

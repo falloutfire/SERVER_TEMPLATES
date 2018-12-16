@@ -9,4 +9,5 @@ interface OsService {
     fun updateOs(os: OS)
     fun allOs(): List<OS>
     fun getOsById(id: Long): Optional<OS>
+    fun getOs(os: OS): Optional<OS>
 }

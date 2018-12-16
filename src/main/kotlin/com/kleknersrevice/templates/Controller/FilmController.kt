@@ -13,9 +13,21 @@ import org.springframework.web.bind.annotation.*
 class FilmController(private val filmService: FilmService, private val chemicalTypeService: ChemicalTypeService) {
 
     @PostMapping("")
-    fun addFilm(@RequestBody film: Film): ResponseEntity<HttpStatus> {
-        filmService.addFilm(film)
-        return ResponseEntity(HttpStatus.CREATED)
+    fun addFilm(@RequestBody film: Film): ResponseEntity<*> {
+        chemicalTypeService.findChemicalType(film.chemicalType).let {
+            if (it.isPresent) {
+                filmService.findFilm(film).let { findFilm ->
+                    return if (!findFilm.isPresent) {
+                        filmService.addFilm(film)
+                        ResponseEntity(messageJson(201, "Film $film created"), HttpStatus.CREATED)
+                    } else {
+                        ResponseEntity(messageJson(200, "Film $film already exist"), HttpStatus.OK)
+                    }
+                }
+            } else {
+                return ResponseEntity(messageJson(404, "Chemical Type $it not found"), HttpStatus.NOT_FOUND)
+            }
+        }
     }
 
     @DeleteMapping("{id}")
@@ -29,32 +41,51 @@ class FilmController(private val filmService: FilmService, private val chemicalT
     }
 
     @PutMapping("")
-    fun updateFilm(@RequestBody film: Film): ResponseEntity<HttpStatus> {
-        filmService.updateFilm(film)
-        return ResponseEntity(HttpStatus.OK)
+    fun updateFilm(@RequestBody film: Film): ResponseEntity<*> {
+        return filmService.getFilmById(film.id).let {
+            if (it.isPresent) {
+                filmService.updateFilm(film)
+                ResponseEntity(messageJson(200, "Film $film updated"), HttpStatus.OK)
+            } else {
+                ResponseEntity(messageJson(404, "Film $film not found"), HttpStatus.NOT_FOUND)
+            }
+        }
     }
 
     @GetMapping("")
-    fun allFilm(): ResponseEntity<List<Film>> {
+    fun allFilm(): ResponseEntity<*> {
         return filmService.allFilm().let {
-            if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
+            if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(
+                messageJson(404),
+                HttpStatus.NOT_FOUND
+            )
         }
     }
 
     @GetMapping("{id}")
     fun getFilmById(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
         return filmService.getFilmById(id).let {
-            if (it.isPresent) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
+            if (it.isPresent) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(
+                messageJson(
+                    404,
+                    "Film $it not found"
+                ), HttpStatus.NOT_FOUND
+            )
         }
     }
 
     @GetMapping("find_by_chemical_type")
-    fun getAllByChemicalType(@RequestBody chemicalType: ChemicalType): ResponseEntity<List<Film>> {
+    fun getAllByChemicalType(@RequestBody chemicalType: ChemicalType): ResponseEntity<*> {
         return chemicalTypeService.getChemicalTypeById(chemicalType.id).let {
             if (it.isPresent) ResponseEntity(
                 filmService.getAllByChemicalType(chemicalType),
                 HttpStatus.OK
-            ) else ResponseEntity(null, HttpStatus.NOT_FOUND)
+            ) else ResponseEntity(
+                messageJson(
+                    404,
+                    "Chemical Type $it not found"
+                ), HttpStatus.NOT_FOUND
+            )
         }
     }
 

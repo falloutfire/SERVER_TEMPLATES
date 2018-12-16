@@ -11,4 +11,5 @@ interface DeviceService {
     fun allDevice(): List<Device>
     fun getDeviceById(id: Long): Optional<Device>
     fun getAllByOs(os: OS): List<Device>
+    fun findDevice(device: Device): Optional<Device>
 }

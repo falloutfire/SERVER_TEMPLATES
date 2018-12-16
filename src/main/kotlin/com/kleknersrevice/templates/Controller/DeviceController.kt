@@ -13,9 +13,21 @@ import org.springframework.web.bind.annotation.*
 class DeviceController(private val deviceService: DeviceService, private val osService: OsService) {
 
     @PostMapping("")
-    fun addDevice(@RequestBody device: Device): ResponseEntity<HttpStatus> {
-        deviceService.addDevice(device)
-        return ResponseEntity(HttpStatus.CREATED)
+    fun addDevice(@RequestBody device: Device): ResponseEntity<*> {
+        osService.getOs(device.os).let {
+            if (it.isPresent) {
+                deviceService.findDevice(device).let { findDevice ->
+                    return if (!findDevice.isPresent) {
+                        deviceService.addDevice(device)
+                        ResponseEntity(messageJson(201, "Device $device created"), HttpStatus.CREATED)
+                    } else {
+                        ResponseEntity(messageJson(200, "Device $device already exist"), HttpStatus.OK)
+                    }
+                }
+            } else {
+                return ResponseEntity(messageJson(404, "OS $it not found"), HttpStatus.NOT_FOUND)
+            }
+        }
     }
 
     @DeleteMapping("{id}")
@@ -29,15 +41,22 @@ class DeviceController(private val deviceService: DeviceService, private val osS
     }
 
     @PutMapping("")
-    fun updateDevice(@RequestBody device: Device): ResponseEntity<HttpStatus> {
-        deviceService.updateDevice(device)
-        return ResponseEntity(HttpStatus.OK)
+    fun updateDevice(@RequestBody device: Device): ResponseEntity<*> {
+        return deviceService.getDeviceById(device.id)
+            .let {
+                if (it.isPresent) {
+                    deviceService.updateDevice(device)
+                    ResponseEntity(messageJson(200, "Device $it updated"), HttpStatus.OK)
+                } else {
+                    ResponseEntity(messageJson(404, "Device $it not found"), HttpStatus.NOT_FOUND)
+                }
+            }
     }
 
     @GetMapping("")
     fun allDevice(): ResponseEntity<*> {
         return deviceService.allDevice().let {
-            if (it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
+            if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
         }
     }
 
@@ -49,12 +68,17 @@ class DeviceController(private val deviceService: DeviceService, private val osS
     }
 
     @PostMapping("find_by_os")
-    fun getAllByOs(@RequestBody os: OS): ResponseEntity<List<Device>> {
+    fun getAllByOs(@RequestBody os: OS): ResponseEntity<*> {
         return osService.getOsById(os.id).let {
             if (it.isPresent) ResponseEntity(
                 deviceService.getAllByOs(os),
                 HttpStatus.OK
-            ) else ResponseEntity(null, HttpStatus.NOT_FOUND)
+            ) else ResponseEntity(
+                messageJson(
+                    404,
+                    "OS $it not found"
+                ), HttpStatus.NOT_FOUND
+            )
         }
     }
 }

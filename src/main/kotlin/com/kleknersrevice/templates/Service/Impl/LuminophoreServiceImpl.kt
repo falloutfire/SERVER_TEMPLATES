@@ -9,6 +9,10 @@ import java.util.*
 @Service
 class LuminophoreServiceImpl(private val luminophoreRepository: LuminophoreRepository) : LuminophoreService {
 
+    override fun findLuminophore(luminophore: Luminophore): Optional<Luminophore> {
+        return luminophoreRepository.findLuminophore(luminophore.name, luminophore.color, luminophore.size)
+    }
+
     override fun addLuminophore(luminophore: Luminophore) {
         luminophoreRepository.saveAndFlush(luminophore)
     }

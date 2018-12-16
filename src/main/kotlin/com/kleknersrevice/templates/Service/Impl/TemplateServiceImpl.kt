@@ -9,6 +9,22 @@ import java.util.*
 @Service
 class TemplateServiceImpl(private val templateRepository: TemplateRepository) : TemplateService {
 
+    override fun findTemplate(template: Template): Optional<Template> {
+        return templateRepository.findTemplate(
+            template.device,
+            template.film,
+            template.luminophore,
+            template.rounding,
+            template.xColor,
+            template.yColor,
+            template.zColor,
+            template.xDelta,
+            template.yDelta,
+            template.zDelta,
+            template.colorScheme
+        )
+    }
+
     override fun addTemplate(template: Template) {
         templateRepository.saveAndFlush(template)
     }
