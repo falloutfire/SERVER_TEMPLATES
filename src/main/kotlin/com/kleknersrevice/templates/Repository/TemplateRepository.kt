@@ -28,12 +28,12 @@ interface TemplateRepository : JpaRepository<Template, Long> {
         @Param("film") film: Film,
         @Param("luminophore") luminophore: Luminophore,
         @Param("rounding") rounding: Int,
-        @Param("xColor") xColor: Int,
-        @Param("yColor") yColor: Int,
-        @Param("zColor") zColor: Int,
-        @Param("xDelta") xDelta: Int,
-        @Param("yDelta") yDelta: Int,
-        @Param("zDelta") zDelta: Int,
+        @Param("xColor") xColor: String,
+        @Param("yColor") yColor: String,
+        @Param("zColor") zColor: String,
+        @Param("xDelta") xDelta: String,
+        @Param("yDelta") yDelta: String,
+        @Param("zDelta") zDelta: String,
         @Param("colorScheme") colorScheme: ColorScheme
     ): Optional<Template>
 }

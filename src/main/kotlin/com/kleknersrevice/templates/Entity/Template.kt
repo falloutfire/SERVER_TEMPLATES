@@ -13,17 +13,17 @@ class Template(
     @Enumerated(EnumType.STRING)
     var colorScheme: ColorScheme,
     @Column(name = "X")
-    var xColor: Int,
+    var xColor: String,
     @Column(name = "Y")
-    var yColor: Int,
+    var yColor: String,
     @Column(name = "Z")
-    var zColor: Int,
+    var zColor: String,
     @Column(name = "Delta_X")
-    var xDelta: Int,
+    var xDelta: String,
     @Column(name = "Delta_Y")
-    var yDelta: Int,
+    var yDelta: String,
     @Column(name = "Delta_Z")
-    var zDelta: Int,
+    var zDelta: String,
     @Column(name = "Rounding")
     var rounding: Int,
 
