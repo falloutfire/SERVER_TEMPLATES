@@ -176,7 +176,7 @@
           <entry key="dummy" value="7" />
           <entry key="gitignore" value="15" />
           <entry key="gradle" value="7" />
-          <entry key="kt" value="9215" />
+          <entry key="kt" value="9217" />
           <entry key="properties" value="124" />
           <entry key="sql" value="53" />
           <entry key="txt" value="152" />
@@ -186,7 +186,7 @@
         <counts>
           <entry key="Git file" value="15" />
           <entry key="Groovy" value="7" />
-          <entry key="Kotlin" value="9215" />
+          <entry key="Kotlin" value="9217" />
           <entry key="PLAIN_TEXT" value="159" />
           <entry key="Properties" value="124" />
           <entry key="SQL" value="12" />
@@ -245,8 +245,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/WebSecurityConfig.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="28" column="47" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
+            <state relative-caret-position="323">
+              <caret line="33" column="51" selection-start-line="33" selection-start-column="51" selection-end-line="33" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -929,7 +929,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545665097624" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545665343398" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Vrashatel-master" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -1047,7 +1047,7 @@
       <workItem from="1545167394521" duration="3084000" />
       <workItem from="1545562961517" duration="842000" />
       <workItem from="1545567688280" duration="1435000" />
-      <workItem from="1545653055223" duration="9245000" />
+      <workItem from="1545653055223" duration="9491000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1543521721694</created>
@@ -1126,11 +1126,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545664583767</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="edit webconfig">
+      <created>1545665122471</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1545665122471</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="118209000" />
+    <option name="totallyTimeSpent" value="118455000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1610,8 +1617,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/kleknersrevice/templates/SecurityConfig/WebSecurityConfig.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="28" column="47" selection-start-line="28" selection-start-column="47" selection-end-line="28" selection-end-column="47" />
+        <state relative-caret-position="323">
+          <caret line="33" column="51" selection-start-line="33" selection-start-column="51" selection-end-line="33" selection-end-column="51" />
         </state>
       </provider>
     </entry>
