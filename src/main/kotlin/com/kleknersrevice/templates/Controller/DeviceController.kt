@@ -34,7 +34,7 @@ class DeviceController(private val deviceService: DeviceService, private val osS
     fun deleteDevice(@PathVariable(value = "id") id: Long): ResponseEntity<HttpStatus> {
         return deviceService.getDeviceById(id).let {
             if (it.isPresent) {
-                osService.deleteOs(id)
+                deviceService.deleteDevice(id)
                 ResponseEntity(HttpStatus.OK)
             } else ResponseEntity(HttpStatus.NOT_FOUND)
         }
