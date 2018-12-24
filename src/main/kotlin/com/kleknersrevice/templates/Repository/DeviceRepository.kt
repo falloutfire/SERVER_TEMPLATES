@@ -12,10 +12,10 @@ interface DeviceRepository : JpaRepository<Device, Long> {
     fun getAllDeviceByOs(os: OS): List<Device>
     @Query(
         "select d from Device d where d.name = :name and d.os = :os and d.camDiafragma = :camDiafragma and " +
-                "d.size = :size and d.focus = :focus and d.stabilization = :stabilization"
+                "d.mp = :mp and d.focus = :focus and d.stabilization = :stabilization"
     )
     fun findDevice(
         @Param("name") name: String, @Param("os") os: OS, @Param("camDiafragma") camDiafragma: Double,
-        @Param("size") size: Long, @Param("focus") focus: Double, @Param("stabilization") stabilization: Boolean
+        @Param("mp") size: Long, @Param("focus") focus: Double, @Param("stabilization") stabilization: Boolean
     ): Optional<Device>
 }

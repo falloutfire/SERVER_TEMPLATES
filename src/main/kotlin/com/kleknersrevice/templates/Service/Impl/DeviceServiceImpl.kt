@@ -15,7 +15,7 @@ class DeviceServiceImpl(private val deviceRepository: DeviceRepository) : Device
             device.name,
             device.os,
             device.camDiafragma,
-            device.size,
+            device.mp,
             device.focus,
             device.stabilization
         )
