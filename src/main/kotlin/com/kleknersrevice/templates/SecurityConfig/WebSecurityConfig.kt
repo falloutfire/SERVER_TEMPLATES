@@ -24,9 +24,9 @@ open class WebSecurityConfig(private val userDetailServiceImpl: UserDetailServic
         http.csrf().disable().authorizeRequests()
             .antMatchers(HttpMethod.GET, "/").permitAll()
             .antMatchers(HttpMethod.POST, "/login").permitAll()
-            .antMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/devices/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.DELETE, "/**/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/**/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.POST, "/**/**").hasRole("ADMIN")
             .anyRequest().authenticated()
             .and()
             // We filter the api/login requests

@@ -18,7 +18,7 @@ class Device(
     var os: OS,
     @Column(name = "Cam_Diafragma")
     var camDiafragma: Double,
-    @Column(name = "MP")
+    @Column(name = "mp")
     var mp: Long,
     @Column(name = "Focus")
     var focus: Double,

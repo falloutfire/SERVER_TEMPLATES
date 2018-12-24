@@ -16,6 +16,6 @@ interface DeviceRepository : JpaRepository<Device, Long> {
     )
     fun findDevice(
         @Param("name") name: String, @Param("os") os: OS, @Param("camDiafragma") camDiafragma: Double,
-        @Param("mp") size: Long, @Param("focus") focus: Double, @Param("stabilization") stabilization: Boolean
+        @Param("mp") mp: Long, @Param("focus") focus: Double, @Param("stabilization") stabilization: Boolean
     ): Optional<Device>
 }
