@@ -24,30 +24,7 @@ open class WebSecurityConfig(private val userDetailServiceImpl: UserDetailServic
         http.csrf().disable().authorizeRequests()
             .antMatchers(HttpMethod.GET, "/").permitAll()
             .antMatchers(HttpMethod.POST, "/login").permitAll()
-            .antMatchers(HttpMethod.DELETE, "/chemical_types/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/chemical_types/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/chemical_types/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/chemical_types/").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/device/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/device/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/device/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/device/").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/film/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/film/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/film/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/film/").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/luminophore/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/luminophore/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/luminophore/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/luminophore/").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/os/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/os/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/os/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/os/").hasRole("ADMIN")
-            .antMatchers(HttpMethod.DELETE, "/template/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.PUT, "/template/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/template/*").hasRole("ADMIN")
-            .antMatchers(HttpMethod.POST, "/template/").hasRole("ADMIN")
+
             .anyRequest().authenticated()
             .and()
             // We filter the api/login requests
@@ -61,6 +38,7 @@ open class WebSecurityConfig(private val userDetailServiceImpl: UserDetailServic
                 UsernamePasswordAuthenticationFilter::class.java
             )
     }
+
 
     @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder?) {
