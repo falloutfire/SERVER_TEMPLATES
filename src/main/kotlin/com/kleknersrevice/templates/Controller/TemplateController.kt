@@ -46,14 +46,14 @@ class TemplateController(
                 return ResponseEntity(
                     messageJson(
                         201,
-                        "Template $it created"
+                        "Template $template created"
                     ), HttpStatus.OK
                 )
             } else {
                 return ResponseEntity(
                     messageJson(
                         200,
-                        "Template $it already exist"
+                        "Template $template already exist"
                     ), HttpStatus.OK
                 )
             }
