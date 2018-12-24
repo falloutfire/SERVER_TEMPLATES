@@ -60,7 +60,7 @@ class TemplateController(
         }
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("{id}")
     fun deleteTemplate(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
         return templateService.getTemplateById(id).let {
             if (it.isPresent) {
