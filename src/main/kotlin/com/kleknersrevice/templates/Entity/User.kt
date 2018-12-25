@@ -13,7 +13,7 @@ class User() {
     @Column(name = "Password")
     var password: String = ""
     @Column(name = "Authorities")
-    var authorities: Role = Role.USER
+    var authorities: Role = Role.ADMIN
     @Column(name = "Enabled")
     var enabled: Boolean = true
     @Column(name = "CredentialsNonExpired")

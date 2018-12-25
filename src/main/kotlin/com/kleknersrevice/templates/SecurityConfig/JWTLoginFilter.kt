@@ -2,6 +2,7 @@ package com.kleknersrevice.templates.SecurityConfig
 
 import TokenAuthenticationService
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.kleknersrevice.templates.Entity.Role
 import com.kleknersrevice.templates.Entity.User
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -30,13 +31,15 @@ class JWTLoginFilter(url: String, authManager: AuthenticationManager) :
         val creds = ObjectMapper()
             .readValue(req.inputStream, User::class.java)
         println(creds.username + " " + creds.password)
-        return authenticationManager.authenticate(
+        println(Role.ADMIN.authority)
+        val back = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(
                 creds.username,
                 creds.password,
-                emptyList()
+                hashSetOf(creds.authorities)
             )
         )
+        return back
     }
 
     @Throws(IOException::class, ServletException::class)

@@ -1,8 +1,9 @@
+import com.kleknersrevice.templates.Service.Impl.UserDetailServiceImpl
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.GrantedAuthority
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -23,18 +24,20 @@ internal object TokenAuthenticationService {
         res.addHeader(HEADER_STRING, "$TOKEN_PREFIX $JWT")
     }
 
-    fun getAuthentication(request: HttpServletRequest): Authentication? {
+    fun getAuthentication(request: HttpServletRequest, userDetailServiceImpl: UserDetailServiceImpl): Authentication? {
         val token = request.getHeader(HEADER_STRING)
         if (token != null) {
             // parse the token.
-            val user = Jwts.parser()
+            val userName = Jwts.parser()
                 .setSigningKey(SECRET)
                 .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                 .body
                 .subject
 
-            return if (user != null)
-                UsernamePasswordAuthenticationToken(user, null, kotlin.collections.emptyList<GrantedAuthority>())
+            return if (userName != null){
+                val user = userDetailServiceImpl.loadUserByUsername(userName)
+                UsernamePasswordAuthenticationToken(userName, null, user?.authorities)
+            }
             else
                 null
         }

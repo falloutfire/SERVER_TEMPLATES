@@ -5,7 +5,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
-
 class UserDaoPrincipal(var user: User) : UserDetails {
     override fun getAuthorities(): List<GrantedAuthority> {
         println(user.authorities.authority)

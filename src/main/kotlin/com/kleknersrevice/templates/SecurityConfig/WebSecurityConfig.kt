@@ -1,5 +1,6 @@
 package com.kleknersrevice.templates.SecurityConfig
 
+import com.kleknersrevice.templates.Entity.Role
 import com.kleknersrevice.templates.Service.Impl.UserDetailServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -24,7 +25,8 @@ open class WebSecurityConfig(private val userDetailServiceImpl: UserDetailServic
         http.csrf().disable().authorizeRequests()
             .antMatchers(HttpMethod.GET, "/").permitAll()
             .antMatchers(HttpMethod.POST, "/login").permitAll()
-
+            .antMatchers(HttpMethod.POST, "/**").hasRole(Role.ADMIN.authority)
+            .antMatchers(HttpMethod.GET, "/os/").hasRole(Role.ADMIN.authority)
             .anyRequest().authenticated()
             .and()
             // We filter the api/login requests
@@ -34,7 +36,7 @@ open class WebSecurityConfig(private val userDetailServiceImpl: UserDetailServic
             )
             // And filter other requests to check the presence of JWT in header
             .addFilterBefore(
-                JWTAuthenticationFilter(),
+                JWTAuthenticationFilter(userDetailServiceImpl),
                 UsernamePasswordAuthenticationFilter::class.java
             )
     }
