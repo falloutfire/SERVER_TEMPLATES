@@ -3,6 +3,7 @@ package com.kleknersrevice.templates.SecurityConfig
 import TokenAuthenticationService
 import com.kleknersrevice.templates.Service.Impl.UserDetailServiceImpl
 import io.jsonwebtoken.io.IOException
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.GenericFilterBean
 import javax.servlet.FilterChain

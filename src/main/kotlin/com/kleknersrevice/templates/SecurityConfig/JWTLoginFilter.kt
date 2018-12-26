@@ -3,7 +3,7 @@ package com.kleknersrevice.templates.SecurityConfig
 import TokenAuthenticationService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.kleknersrevice.templates.Entity.Role
-import com.kleknersrevice.templates.Entity.User
+import com.kleknersrevice.templates.Service.Impl.UserDetailServiceImpl
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -17,7 +17,11 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 
-class JWTLoginFilter(url: String, authManager: AuthenticationManager) :
+class JWTLoginFilter(
+    url: String,
+    authManager: AuthenticationManager,
+    val userDetailServiceImpl: UserDetailServiceImpl
+) :
     AbstractAuthenticationProcessingFilter(AntPathRequestMatcher(url)) {
 
     init {
@@ -29,17 +33,22 @@ class JWTLoginFilter(url: String, authManager: AuthenticationManager) :
         req: HttpServletRequest, res: HttpServletResponse
     ): Authentication {
         val creds = ObjectMapper()
-            .readValue(req.inputStream, User::class.java)
-        println(creds.username + " " + creds.password)
+            .readValue(req.inputStream, com.kleknersrevice.templates.Entity.User::class.java)
+        println(creds.username + " " + creds.password + " " + creds.authorities)
         println(Role.ADMIN.authority)
-        val back = authenticationManager.authenticate(
+        val authorities = userDetailServiceImpl.loadUserByUsername(creds.username)?.authorities
+
+        val auth = UsernamePasswordAuthenticationToken(creds.username, creds.password, authorities)
+
+        /*val back = authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(
                 creds.username,
                 creds.password,
-                hashSetOf(creds.authorities)
+                arrayListOf(creds.authorities)
             )
-        )
-        return back
+        )*/
+
+        return this.authenticationManager.authenticate(auth)
     }
 
     @Throws(IOException::class, ServletException::class)
@@ -49,6 +58,6 @@ class JWTLoginFilter(url: String, authManager: AuthenticationManager) :
         auth: Authentication
     ) {
         TokenAuthenticationService
-            .addAuthentication(res, auth.name)
+            .addAuthentication(res, auth.name, auth)
     }
 }

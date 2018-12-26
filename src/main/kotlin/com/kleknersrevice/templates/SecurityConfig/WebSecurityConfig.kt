@@ -25,13 +25,11 @@ open class WebSecurityConfig(private val userDetailServiceImpl: UserDetailServic
         http.csrf().disable().authorizeRequests()
             .antMatchers(HttpMethod.GET, "/").permitAll()
             .antMatchers(HttpMethod.POST, "/login").permitAll()
-            .antMatchers(HttpMethod.POST, "/**").hasRole(Role.ADMIN.authority)
-            .antMatchers(HttpMethod.GET, "/os/").hasRole(Role.ADMIN.authority)
             .anyRequest().authenticated()
             .and()
             // We filter the api/login requests
             .addFilterBefore(
-                JWTLoginFilter("/login", authenticationManager()),
+                JWTLoginFilter("/login", authenticationManager(), userDetailServiceImpl),
                 UsernamePasswordAuthenticationFilter::class.java
             )
             // And filter other requests to check the presence of JWT in header
