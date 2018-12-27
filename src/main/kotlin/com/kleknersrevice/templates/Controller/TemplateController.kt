@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/template/")
+@RequestMapping("bd_template/template/")
 class TemplateController(
     private val templateService: TemplateService,
     private val deviceService: DeviceService,

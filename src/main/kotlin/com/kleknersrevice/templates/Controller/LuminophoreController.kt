@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/luminophore/")
+@RequestMapping("bd_template/luminophore/")
 class LuminophoreController(private val luminophoreService: LuminophoreService) {
 
     @PostMapping("")

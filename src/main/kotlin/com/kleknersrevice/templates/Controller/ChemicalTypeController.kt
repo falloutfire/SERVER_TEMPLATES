@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/chemical_types/")
+@RequestMapping("bd_template/chemical_types/")
 class ChemicalTypeController(private val chemicalTypeService: ChemicalTypeService) {
 
     @PostMapping("")

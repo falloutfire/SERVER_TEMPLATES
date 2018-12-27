@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/os/")
+@RequestMapping("bd_template/os/")
 class OsController(private val osService: OsService) {
 
     @GetMapping("")

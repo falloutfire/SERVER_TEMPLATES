@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/film/")
+@RequestMapping("bd_template/film/")
 class FilmController(private val filmService: FilmService, private val chemicalTypeService: ChemicalTypeService) {
 
     @PostMapping("")

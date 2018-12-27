@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/device/")
+@RequestMapping("bd_template/device/")
 class DeviceController(private val deviceService: DeviceService, private val osService: OsService) {
 
     @PostMapping("")
