@@ -4,12 +4,14 @@ import com.kleknersrevice.templates.Entity.ChemicalType
 import com.kleknersrevice.templates.Service.ChemicalTypeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("bd_template/chemical_types/")
 class ChemicalTypeController(private val chemicalTypeService: ChemicalTypeService) {
 
+    ////@Secured("ROLE_ADMIN")
     @PostMapping("")
     fun addChemicalType(@RequestBody chemicalType: ChemicalType): ResponseEntity<*> {
         return chemicalTypeService.findChemicalType(chemicalType).let {
@@ -22,6 +24,7 @@ class ChemicalTypeController(private val chemicalTypeService: ChemicalTypeServic
         }
     }
 
+    ////@Secured("ROLE_ADMIN")
     @GetMapping("")
     fun allChemicalTypes(): ResponseEntity<*> {
         return chemicalTypeService.allChemicalType().let {
@@ -32,6 +35,7 @@ class ChemicalTypeController(private val chemicalTypeService: ChemicalTypeServic
         }
     }
 
+    ////@Secured("ROLE_ADMIN")
     @GetMapping("{id}")
     fun getChemicalTypeById(@PathVariable(value = "id") chemicalTypeId: Long): ResponseEntity<*> {
         return chemicalTypeService.getChemicalTypeById(chemicalTypeId).let {
@@ -42,6 +46,7 @@ class ChemicalTypeController(private val chemicalTypeService: ChemicalTypeServic
         }
     }
 
+    ////@Secured("ROLE_ADMIN")
     @DeleteMapping("{id}")
     fun deleteChemicalTypeById(@PathVariable(value = "id") chemicalTypeId: Long): ResponseEntity<*> {
         return chemicalTypeService.getChemicalTypeById(chemicalTypeId).let {
@@ -52,6 +57,7 @@ class ChemicalTypeController(private val chemicalTypeService: ChemicalTypeServic
         }
     }
 
+    ////@Secured("ROLE_ADMIN")
     @PutMapping("")
     fun updateChemicalType(@RequestBody chemicalType: ChemicalType): ResponseEntity<*> {
         return chemicalTypeService.getChemicalTypeById(chemicalType.id)

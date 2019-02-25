@@ -4,12 +4,14 @@ import com.kleknersrevice.templates.Entity.OS
 import com.kleknersrevice.templates.Service.OsService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("bd_template/os/")
 class OsController(private val osService: OsService) {
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("")
     fun allOs(): ResponseEntity<*> {
         return osService.allOs().let {
@@ -20,6 +22,7 @@ class OsController(private val osService: OsService) {
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @PostMapping("")
     fun addOs(@RequestBody os: OS): ResponseEntity<*> {
         return osService.getOs(os).let {
@@ -32,6 +35,7 @@ class OsController(private val osService: OsService) {
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @PutMapping("")
     fun updateOs(@RequestBody os: OS): ResponseEntity<*> {
         return osService.getOsById(os.id)
@@ -45,6 +49,7 @@ class OsController(private val osService: OsService) {
             }
     }
 
+    //@Secured("ROLE_ADMIN")
     @DeleteMapping("{id}")
     fun deleteOs(@PathVariable(value = "id") osId: Long): ResponseEntity<*> {
         return osService.getOsById(osId).let {

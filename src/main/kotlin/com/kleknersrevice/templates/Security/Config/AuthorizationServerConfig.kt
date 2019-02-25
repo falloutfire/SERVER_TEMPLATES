@@ -32,8 +32,8 @@ open class AuthorizationServerConfig(var authenticationManager: AuthenticationMa
     private val SCOPE_WRITE = "write"
     private val TRUST = "trust"
 
-    override fun configure(endpoints: AuthorizationServerEndpointsConfigurer?) {
-        endpoints?.authenticationManager(authenticationManager)?.accessTokenConverter(accessTokenConverter())
+    override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
+        endpoints.authenticationManager(authenticationManager).accessTokenConverter(accessTokenConverter())
     }
 
     override fun configure(clients: ClientDetailsServiceConfigurer) {

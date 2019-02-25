@@ -7,6 +7,7 @@ import com.kleknersrevice.templates.Service.LuminophoreService
 import com.kleknersrevice.templates.Service.TemplateService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -18,6 +19,7 @@ class TemplateController(
     private val luminophoreService: LuminophoreService
 ) {
 
+    //@Secured("ROLE_ADMIN")
     @PostMapping("")
     fun addTemplate(@RequestBody template: Template): ResponseEntity<*> {
         deviceService.findDevice(template.device).let {
@@ -60,6 +62,7 @@ class TemplateController(
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @DeleteMapping("{id}")
     fun deleteTemplate(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
         return templateService.getTemplateById(id).let {
@@ -70,6 +73,7 @@ class TemplateController(
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @PutMapping("")
     fun updateTemplate(@RequestBody template: Template): ResponseEntity<*> {
         return templateService.getTemplateById(template.id)
@@ -83,6 +87,7 @@ class TemplateController(
             }
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("")
     fun allTemplate(): ResponseEntity<*> {
         return templateService.allTemplate().let {
@@ -90,6 +95,7 @@ class TemplateController(
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("{id}")
     fun getTemplateById(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
         return templateService.getTemplateById(id).let {
@@ -102,6 +108,7 @@ class TemplateController(
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("find_by_device")
     fun getAllByDevice(@RequestBody device: Device): ResponseEntity<*> {
         return deviceService.getDeviceById(device.id).let {
@@ -117,6 +124,7 @@ class TemplateController(
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("find_by_luminophore")
     fun getAllByLuminophore(@RequestBody luminophore: Luminophore): ResponseEntity<*> {
         return luminophoreService.getLuminophoreById(luminophore.id).let {
@@ -132,6 +140,7 @@ class TemplateController(
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("find_by_film")
     fun getAllByFilm(@RequestBody film: Film): ResponseEntity<*> {
         return filmService.getFilmById(film.id).let {
@@ -147,11 +156,13 @@ class TemplateController(
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("find_by_color/{colorScheme}")
     fun getAllByColorScheme(@PathVariable(value = "colorScheme") colorScheme: ColorScheme): ResponseEntity<*> {
         return ResponseEntity(templateService.getAllByColorScheme(colorScheme), HttpStatus.OK)
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("find_by_all")
     fun getAllByAllParameters(@RequestBody templateContext: TemplateContext): ResponseEntity<*> {
         deviceService.findDevice(templateContext.device).let {

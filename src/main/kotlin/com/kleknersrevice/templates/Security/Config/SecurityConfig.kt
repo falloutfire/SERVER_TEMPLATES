@@ -21,7 +21,10 @@ import javax.annotation.Resource
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-open class SecurityConfig(@Resource(name = "userService") private var userDetailsService: UserDetailsService) : WebSecurityConfigurerAdapter() {
+open class SecurityConfig : WebSecurityConfigurerAdapter() {
+
+    @Resource(name = "userService")
+    lateinit var userDetailsService: UserDetailsService
 
     @Bean
     override fun authenticationManagerBean(): AuthenticationManager {

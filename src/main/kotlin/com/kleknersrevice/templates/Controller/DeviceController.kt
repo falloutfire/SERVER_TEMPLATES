@@ -6,12 +6,14 @@ import com.kleknersrevice.templates.Service.DeviceService
 import com.kleknersrevice.templates.Service.OsService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("bd_template/device/")
 class DeviceController(private val deviceService: DeviceService, private val osService: OsService) {
 
+    //@Secured("ROLE_ADMIN")
     @PostMapping("")
     fun addDevice(@RequestBody device: Device): ResponseEntity<*> {
         osService.getOs(device.os).let {
@@ -30,6 +32,7 @@ class DeviceController(private val deviceService: DeviceService, private val osS
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @DeleteMapping("{id}")
     fun deleteDevice(@PathVariable(value = "id") id: Long): ResponseEntity<HttpStatus> {
         return deviceService.getDeviceById(id).let {
@@ -40,6 +43,7 @@ class DeviceController(private val deviceService: DeviceService, private val osS
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @PutMapping("")
     fun updateDevice(@RequestBody device: Device): ResponseEntity<*> {
         return deviceService.getDeviceById(device.id)
@@ -53,6 +57,7 @@ class DeviceController(private val deviceService: DeviceService, private val osS
             }
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("")
     fun allDevice(): ResponseEntity<*> {
         return deviceService.allDevice().let {
@@ -60,6 +65,7 @@ class DeviceController(private val deviceService: DeviceService, private val osS
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("{id}")
     fun getDeviceById(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
         return deviceService.getDeviceById(id).let {
@@ -67,6 +73,7 @@ class DeviceController(private val deviceService: DeviceService, private val osS
         }
     }
 
+    //@Secured("ROLE_ADMIN")
     @GetMapping("find_by_os")
     fun getAllByOs(@RequestBody os: OS): ResponseEntity<*> {
         return osService.getOsById(os.id).let {
