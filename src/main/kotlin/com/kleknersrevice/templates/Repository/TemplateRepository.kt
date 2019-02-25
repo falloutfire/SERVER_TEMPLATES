@@ -13,9 +13,10 @@ interface TemplateRepository : JpaRepository<Template, Long> {
     fun getAllTemplateByFilm(film: Film): List<Template>
     fun getAllTemplateByColorScheme(colorScheme: ColorScheme): List<Template>
     @Query("select t from Template t where t.device = :device and t.film = :film and t.luminophore = :luminophore")
-    fun getAllTemplateByAllParameters(@Param("device") device: Device,
-                                      @Param("film") film: Film,
-                                      @Param("luminophore") luminophore: Luminophore
+    fun getAllTemplateByAllParameters(
+        @Param("device") device: Device,
+        @Param("film") film: Film,
+        @Param("luminophore") luminophore: Luminophore
     ): List<Template>
 
     @Query(
