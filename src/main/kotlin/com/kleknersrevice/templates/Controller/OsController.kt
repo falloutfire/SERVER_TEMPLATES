@@ -11,18 +11,19 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("bd_template/os/")
 class OsController(private val osService: OsService) {
 
-    //@Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     @GetMapping("")
-    fun allOs(): ResponseEntity<*> {
-        return osService.allOs().let {
+    fun allOs(): ApiResponse {
+        /*return osService.allOs().let {
             if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(
                 messageJson(404),
                 HttpStatus.NOT_FOUND
             )
-        }
+        }*/
+        return ApiResponse(HttpStatus.OK, "success", osService.allOs())
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     @PostMapping("")
     fun addOs(@RequestBody os: OS): ResponseEntity<*> {
         return osService.getOs(os).let {
@@ -35,7 +36,7 @@ class OsController(private val osService: OsService) {
         }
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     @PutMapping("")
     fun updateOs(@RequestBody os: OS): ResponseEntity<*> {
         return osService.getOsById(os.id)
@@ -49,7 +50,7 @@ class OsController(private val osService: OsService) {
             }
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("{id}")
     fun deleteOs(@PathVariable(value = "id") osId: Long): ResponseEntity<*> {
         return osService.getOsById(osId).let {
@@ -60,6 +61,7 @@ class OsController(private val osService: OsService) {
         }
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("{id}")
     fun getOsById(@PathVariable(value = "id") osId: Long): ResponseEntity<*> {
         return osService.getOsById(osId).let {

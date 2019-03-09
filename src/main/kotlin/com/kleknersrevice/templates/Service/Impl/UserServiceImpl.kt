@@ -22,20 +22,20 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional
 @Service(value = "userService")
-open class UserServiceImpl : UserDetailsService, UserService {
+class UserServiceImpl : UserDetailsService, UserService {
 
     @Autowired
-    private val userDao: UserRepository? = null
+    private val userRepository: UserRepository? = null
 
     @Autowired
-    private val roleDao: RoleRepository? = null
+    private val roleRepository: RoleRepository? = null
 
     @Autowired
     private val passwordEncoder: BCryptPasswordEncoder? = null
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(userId: String): UserDetails {
-        val user = userDao!!.findByUsername(userId)
+        val user = userRepository!!.findByUsername(userId)
         if (!user.isPresent) {
             log.error("Invalid username or password.")
             throw UsernameNotFoundException("Invalid username or password.")
@@ -43,11 +43,12 @@ open class UserServiceImpl : UserDetailsService, UserService {
         val grantedAuthorities = getAuthorities(user.get())
 
 
-        return org.springframework.security.core.userdetails.User(
-            user!!.get().username,
-            user!!.get().password,
+        /*return org.springframework.security.core.userdetails.User(
+            user.get().username,
+            user.get().password,
             grantedAuthorities
-        )
+        )*/
+        return user.get()
     }
 
     private fun getAuthorities(user: Users): Set<GrantedAuthority> {
@@ -59,37 +60,41 @@ open class UserServiceImpl : UserDetailsService, UserService {
 
     override fun findAll(): List<UserDto> {
         val users = ArrayList<UserDto>()
-        userDao!!.findAll().iterator().forEachRemaining { user -> users.add(user.toUsersDto()) }
+        userRepository!!.findAll().iterator().forEachRemaining { user -> users.add(user.toUsersDto()) }
         return users
     }
 
     override fun findOne(id: Long): Users {
-        return userDao!!.findById(id).get()
+        return userRepository!!.findById(id).get()
+    }
+
+    override fun findByUserName(username: String): Users? {
+        return userRepository!!.findByUsername(username).get()
     }
 
     override fun delete(id: Long) {
-        userDao!!.deleteById(id)
+        userRepository!!.deleteById(id)
     }
 
     override fun save(userDto: UserDto): UserDto {
-        val userWithDuplicateUsername = userDao!!.findByUsername(userDto.username!!)
-        if (userWithDuplicateUsername.isPresent && userDto.id !== userWithDuplicateUsername!!.get().id) {
-            log.error(String.format("Duplicate username %", userDto.username))
+        val userWithDuplicateUsername = userRepository!!.findByUsername(userDto.username!!)
+        if (userWithDuplicateUsername.isPresent && userDto.id !== userWithDuplicateUsername.get().id) {
+            log.error(String.format("Duplicate username ", userDto.username))
             throw RuntimeException("Duplicate username.")
         }
-        val userWithDuplicateEmail = userDao!!.findByEmail(userDto.email!!)
-        if (userWithDuplicateEmail.isPresent && userDto.id !== userWithDuplicateEmail!!.get().id) {
-            log.error(String.format("Duplicate email %", userDto.email))
+        val userWithDuplicateEmail = userRepository.findByEmail(userDto.email!!)
+        if (userWithDuplicateEmail.isPresent && userDto.id !== userWithDuplicateEmail.get().id) {
+            log.error(String.format("Duplicate email ", userDto.email))
             throw RuntimeException("Duplicate email.")
         }
         val user = Users()
         user.email = (userDto.email)
-        user.username = (userDto.username)
-        user.password = (passwordEncoder!!.encode(userDto.password!!))
+        user.setUsername(userDto.username)
+        user.setPassword(passwordEncoder!!.encode(userDto.password!!))
         val roleTypes = ArrayList<RoleType>()
         userDto.role!!.stream().map { role -> roleTypes.add(RoleType.valueOf(role)) }
-        user.roles = (roleDao!!.find(userDto.role!!))
-        userDao!!.save(user)
+        user.roles = (roleRepository!!.find(userDto.role!!))
+        userRepository.save(user)
         return userDto
     }
 
