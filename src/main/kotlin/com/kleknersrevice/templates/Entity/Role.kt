@@ -1,10 +1,11 @@
 package com.kleknersrevice.templates.Entity
 
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
-@Table(name = "Role")
-data class Role(
+@Table(name = "Roles")
+data class Roles(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
@@ -19,7 +20,7 @@ data class Role(
     var createdOn: Long,
     @Column(name = "MODIFIED_ON")
     var modifiedOn: Long
-)
+) : Serializable
 
 enum class RoleType {
 

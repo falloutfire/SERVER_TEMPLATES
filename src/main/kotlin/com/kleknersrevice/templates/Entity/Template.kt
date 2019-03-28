@@ -25,7 +25,7 @@ class Template(
     @Column(name = "Delta_Z")
     var zDelta: String,
     @Column(name = "Rounding")
-    var rounding: Int,
+    var rounding: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Device_ID", nullable = false)
@@ -42,3 +42,5 @@ class Template(
     @OnDelete(action = OnDeleteAction.CASCADE)
     var luminophore: Luminophore
 )
+
+class TemplateContext(var device: Device, var film: Film, var luminophore: Luminophore)

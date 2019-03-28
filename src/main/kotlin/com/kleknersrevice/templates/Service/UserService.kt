@@ -8,4 +8,5 @@ interface UserService {
     fun findAll(): List<UserDto>
     fun findOne(id: Long): Users
     fun delete(id: Long)
+    fun findByUserName(username: String): Users?
 }

@@ -4,7 +4,6 @@ import com.kleknersrevice.templates.Entity.Luminophore
 import com.kleknersrevice.templates.Service.LuminophoreService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController

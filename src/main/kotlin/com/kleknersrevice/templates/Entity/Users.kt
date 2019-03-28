@@ -1,39 +1,87 @@
 package com.kleknersrevice.templates.Entity
 
-import java.util.stream.Collectors
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
-
 
 @Entity
 @Table(name = "Users")
-data class Users(
+class Users : UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    var id: Long? = null,
-    @Column(name = "USERNAME")
-    var username: String? = null,
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    var id: Long? = null
+    @Column(name = "USERNAME", unique = true)
+    private var username: String? = ""
     @Column(name = "PASSWORD")
-    var password: String? = null,
+    private var password: String? = ""
     @Column(name = "EMAIL")
-    var email: String? = null,
+    var email: String? = null
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "User_ROLES", joinColumns = [JoinColumn(name = "USER_ID")],
+        name = "Users_ROLES", joinColumns = [JoinColumn(name = "USER_ID")],
         inverseJoinColumns = [JoinColumn(name = "ROLE_ID")]
     )
-    var roles: Set<Role>? = null
-) {
+    var roles: Set<Roles>? = null
+    private val accountNonExpired: Boolean = true
+    private val accountNonLocked: Boolean = true
+    private val credentialsNonExpired: Boolean = true
+    private val enabled: Boolean = true
+
+    override fun isAccountNonExpired(): Boolean {
+        return accountNonExpired
+    }
+
+    override fun isAccountNonLocked(): Boolean {
+        return accountNonLocked
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        return credentialsNonExpired
+    }
+
+    override fun isEnabled(): Boolean {
+        return enabled
+    }
+
+    fun grantAuthority(authority: Roles) {
+        roles!!.map { authority }
+        /*roles!!.add(authority)*/
+    }
+
+    override fun getAuthorities(): List<GrantedAuthority> {
+        val authorities = ArrayList<GrantedAuthority>()
+        roles!!.forEach { role -> authorities.add(SimpleGrantedAuthority("ROLE_" + role.name.toString().toUpperCase())) }
+        return authorities
+    }
+
+    override fun getUsername(): String {
+        return this.username!!
+    }
+
+    override fun getPassword(): String {
+        return this.password!!
+    }
+
+    fun setUsername(username: String?) {
+        this.username = username
+    }
+
+    fun setPassword(password: String?) {
+        this.password = password
+    }
 
     fun toUsersDto(): UserDto {
         val userDto = UserDto()
         userDto.id = this.id
         userDto.email = this.email
         userDto.username = this.username
-        userDto.role = this.roles!!.map { role -> role.name.toString()}
+        userDto.role = this.roles!!.map { role -> role.name.toString() }
         return userDto
     }
+
 }
+
 
 data class UserDto(
     var id: Long? = null,

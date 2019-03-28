@@ -5,9 +5,11 @@ import com.kleknersrevice.templates.Entity.Film
 import com.kleknersrevice.templates.Repository.FilmRepository
 import com.kleknersrevice.templates.Service.FilmService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
+@Transactional
 class FilmServiceImpl(private val filmRepository: FilmRepository) : FilmService {
 
     override fun findFilm(film: Film): Optional<Film> {

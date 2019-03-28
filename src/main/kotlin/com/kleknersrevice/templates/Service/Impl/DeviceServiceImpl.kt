@@ -5,9 +5,11 @@ import com.kleknersrevice.templates.Entity.OS
 import com.kleknersrevice.templates.Repository.DeviceRepository
 import com.kleknersrevice.templates.Service.DeviceService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
+@Transactional
 class DeviceServiceImpl(private val deviceRepository: DeviceRepository) : DeviceService {
 
     override fun findDevice(device: Device): Optional<Device> {

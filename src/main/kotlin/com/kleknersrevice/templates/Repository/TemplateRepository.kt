@@ -28,7 +28,7 @@ interface TemplateRepository : JpaRepository<Template, Long> {
         @Param("device") device: Device,
         @Param("film") film: Film,
         @Param("luminophore") luminophore: Luminophore,
-        @Param("rounding") rounding: Int,
+        @Param("rounding") rounding: String,
         @Param("xColor") xColor: String,
         @Param("yColor") yColor: String,
         @Param("zColor") zColor: String,

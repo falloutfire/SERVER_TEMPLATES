@@ -7,4 +7,5 @@ import java.util.*
 interface UserRepository : JpaRepository<Users, Long> {
     fun findByUsername(username: String): Optional<Users>
     fun findByEmail(email: String): Optional<Users>
+    fun deleteUsersById(id: Long)
 }

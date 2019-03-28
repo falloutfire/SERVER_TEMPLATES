@@ -1,91 +1,139 @@
 package com.kleknersrevice.templates.Controller
 
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.CREATED
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.DELETED
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.UPDATED
 import com.kleknersrevice.templates.Entity.Device
 import com.kleknersrevice.templates.Entity.OS
+import com.kleknersrevice.templates.Service.AuthenticationFacadeService
 import com.kleknersrevice.templates.Service.DeviceService
 import com.kleknersrevice.templates.Service.OsService
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("bd_template/device/")
-class DeviceController(private val deviceService: DeviceService, private val osService: OsService) {
+class DeviceController(
+    private val deviceService: DeviceService,
+    private val osService: OsService,
+    private val authenticationFacadeService: AuthenticationFacadeService
+) {
 
-    //@Secured("ROLE_ADMIN")
+    private val log = LoggerFactory.getLogger(DeviceController::class.java)
+
+    @Secured(ROLE_ADMIN)
     @PostMapping("")
-    fun addDevice(@RequestBody device: Device): ResponseEntity<*> {
-        osService.getOs(device.os).let {
-            if (it.isPresent) {
+    fun addDevice(@RequestBody device: Device): ApiResponse {
+        log.info(
+            String.format(
+                "received request to add device %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
+        return osService.getOs(device.os).run {
+            if (isPresent) {
                 deviceService.findDevice(device).let { findDevice ->
                     return if (!findDevice.isPresent) {
                         deviceService.addDevice(device)
-                        ResponseEntity(messageJson(201, "Device $device created"), HttpStatus.CREATED)
+                        ApiResponse(HttpStatus.CREATED, "Device $CREATED")
                     } else {
-                        ResponseEntity(messageJson(200, "Device $device already exist"), HttpStatus.OK)
+                        ApiResponse(HttpStatus.OK, "Device $EXIST")
                     }
                 }
             } else {
-                return ResponseEntity(messageJson(404, "OS $it not found"), HttpStatus.NOT_FOUND)
+                return@run ApiResponse(HttpStatus.NOT_FOUND, "OS $NOT_FOUND")
             }
         }
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN)
     @DeleteMapping("{id}")
-    fun deleteDevice(@PathVariable(value = "id") id: Long): ResponseEntity<HttpStatus> {
-        return deviceService.getDeviceById(id).let {
-            if (it.isPresent) {
+    fun deleteDevice(@PathVariable(value = "id") id: Long): ApiResponse {
+        log.info(
+            String.format(
+                "received request to delete device %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
+        return deviceService.getDeviceById(id).run {
+            if (isPresent) {
                 deviceService.deleteDevice(id)
-                ResponseEntity(HttpStatus.OK)
-            } else ResponseEntity(HttpStatus.NOT_FOUND)
+                ApiResponse(HttpStatus.OK, "Device $DELETED")
+            } else ApiResponse(HttpStatus.NOT_FOUND, "Device $NOT_FOUND")
         }
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN)
     @PutMapping("")
-    fun updateDevice(@RequestBody device: Device): ResponseEntity<*> {
+    fun updateDevice(@RequestBody device: Device): ApiResponse {
+        log.info(
+            String.format(
+                "received request to update device %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
         return deviceService.getDeviceById(device.id)
-            .let {
-                if (it.isPresent) {
+            .run {
+                if (isPresent) {
                     deviceService.updateDevice(device)
-                    ResponseEntity(messageJson(200, "Device $it updated"), HttpStatus.OK)
+                    ApiResponse(HttpStatus.OK, "Device $UPDATED")
                 } else {
-                    ResponseEntity(messageJson(404, "Device $it not found"), HttpStatus.NOT_FOUND)
+                    ApiResponse(HttpStatus.NOT_FOUND, "Device $NOT_FOUND")
                 }
             }
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("")
-    fun allDevice(): ResponseEntity<*> {
-        return deviceService.allDevice().let {
-            if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
-        }
-    }
-
-    //@Secured("ROLE_ADMIN")
-    @GetMapping("{id}")
-    fun getDeviceById(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
-        return deviceService.getDeviceById(id).let {
-            if (it.isPresent) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
-        }
-    }
-
-    //@Secured("ROLE_ADMIN")
-    @GetMapping("find_by_os")
-    fun getAllByOs(@RequestBody os: OS): ResponseEntity<*> {
-        return osService.getOsById(os.id).let {
-            if (it.isPresent) ResponseEntity(
-                deviceService.getAllByOs(os),
-                HttpStatus.OK
-            ) else ResponseEntity(
-                messageJson(
-                    404,
-                    "OS $it not found"
-                ), HttpStatus.NOT_FOUND
+    fun allDevice(): List<Device> {
+        log.info(
+            String.format(
+                "received request to list device %s",
+                authenticationFacadeService.getAuthentication().principal
             )
+        )
+        return deviceService.allDevice()/*.run {
+            ApiResponse(HttpStatus.OK, SUCCESS, this)
+        }*/
+    }
+
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("{id}")
+    fun getDeviceById(@PathVariable(value = "id") id: Long): ApiResponse {
+        log.info(
+            String.format(
+                "received request to add device %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
+        return deviceService.getDeviceById(id).run {
+            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this) else ApiResponse(
+                HttpStatus.NOT_FOUND,
+                "Device $NOT_FOUND"
+            )
+        }
+    }
+
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("find_by_os")
+    fun getAllByOs(@RequestBody os: OS): ApiResponse {
+        log.info(
+            String.format(
+                "received request to get device by id %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
+        return osService.getOsById(os.id).run {
+            if (isPresent)
+                ApiResponse(HttpStatus.OK, SUCCESS, this)
+            else ApiResponse(HttpStatus.NOT_FOUND, "Devices $NOT_FOUND")
         }
     }
 }

@@ -4,12 +4,11 @@ import com.kleknersrevice.templates.Entity.Users
 import com.kleknersrevice.templates.Service.Impl.TokenNotFoundException
 import com.kleknersrevice.templates.Service.TokenBlackListService
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
-import org.springframework.scheduling.annotation.EnableScheduling
-import org.springframework.scheduling.annotation.Scheduled
+import org.springframework.jdbc.datasource.DriverManagerDataSource
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.oauth2.common.OAuth2AccessToken
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
@@ -20,12 +19,10 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication
 import org.springframework.security.oauth2.provider.TokenRequest
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices
 import org.springframework.security.oauth2.provider.token.TokenStore
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
-import java.text.SimpleDateFormat
-import java.util.*
-import javax.annotation.Resource
 import javax.security.sasl.AuthenticationException
+import javax.sql.DataSource
 
 
 /**
@@ -42,6 +39,18 @@ class AuthorizationServerConfig(
 ) :
     AuthorizationServerConfigurerAdapter() {
 
+    @Value("\${spring.datasource.url}")
+    private var datasourceUrl: String? = null
+
+    @Value("\${spring.datasource.driver-class-name}")
+    private var dbDriverClassName: String? = null
+
+    @Value("\${spring.datasource.username}")
+    private var dbUsername: String? = null
+
+    @Value("\${spring.datasource.password}")
+    private var dbPassword: String? = null
+
     private val CLIENT_ID = "mobile_app_client"
     private val CLIENT_SECRET = "$2a$04$1VGGg98BkCSvSLs4RDSyUu8MrYf0jkY3dgCLAy8GHJe6QA4VAM/X2"
     private val GRANT_TYPE_PASSWORD = "password"
@@ -55,7 +64,8 @@ class AuthorizationServerConfig(
     private val REFRESH_TOKEN_VALIDITY_SECONDS = 6 * 60
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
-        endpoints.authenticationManager(authenticationManager).accessTokenConverter(accessTokenConverter())
+        endpoints.authenticationManager(authenticationManager)
+            /*.accessTokenConverter(accessTokenConverter())*/
             .tokenStore(tokenStore()).tokenServices(tokenServices())
     }
 
@@ -78,16 +88,28 @@ class AuthorizationServerConfig(
     }
 
     @Bean
-    fun tokenStore(): TokenStore = JwtTokenStore(accessTokenConverter())
+    fun tokenStore(): TokenStore =
+    //JwtTokenStore(accessTokenConverter())
+        JdbcTokenStore(dataSource())
+
+
+    private fun dataSource(): DataSource? {
+        val dataSource = DriverManagerDataSource()
+        dataSource.setDriverClassName(dbDriverClassName!!)
+        dataSource.url = datasourceUrl
+        dataSource.username = dbUsername
+        dataSource.password = dbPassword
+        return dataSource
+    }
 
     @Bean
     @Primary
     fun tokenServices(): DefaultTokenServices {
-        val tokenService = CustomTokenService(this!!.blackListService!!)
-        //val tokenService = DefaultTokenServices()
+        //val tokenService = CustomTokenService(this.blackListService)
+        val tokenService = DefaultTokenServices()
         tokenService.setTokenStore(tokenStore())
         tokenService.setSupportRefreshToken(true)
-        tokenService.setTokenEnhancer(accessTokenConverter())
+        //tokenService.setTokenEnhancer(accessTokenConverter())
         return tokenService
     }
 
@@ -100,19 +122,23 @@ class AuthorizationServerConfig(
             val account = authentication.principal as Users
             val jti = token.additionalInformation["jti"] as String
 
-            /*val services = blackListService as ConsumerTokenServices
+            /*blackListService.getAllTokensByUserId(account.id!!).forEach {
+                if (it.accessToken != null && !it.isBlackListed!!) {
+                    if(!super.isExpired(it.refreshToken as OAuth2RefreshToken)) {
+                        super.revokeToken(it.accessToken)
+                        blackListService.addToBlackList(it.jti!!)
+                    }
 
-            blackListService.getAllTokensByUserId(account.id!!).forEach {
-                if (it.accessToken != null) {
-                    services.revokeToken(it.accessToken)
+                    //super.getClientId(it.accessToken)
+                    //authentication.userAuthentication.isAuthenticated = false
                 }
-            }*/
+            }
 
             blackListService.addToEnableList(
                 account.id!!,
                 jti,
-                token.expiration.time
-            )
+                token.expiration.time, token.value, token.refreshToken.value
+            )*/
             return token
         }
 
@@ -122,11 +148,13 @@ class AuthorizationServerConfig(
             logger.info("refresh token:$refreshTokenValue")
             val jti = tokenRequest.requestParameters["jti"]
             try {
-                if (jti != null)
-                    if (blackListService.isBlackListed(jti)!!) return null
+                /*if (jti != null)
+                    if (blackListService.isBlackListed(jti)!!) return null*/
 
                 val token = super.refreshAccessToken(refreshTokenValue, tokenRequest)
-                blackListService.addToBlackList(jti!!)
+
+
+                //blackListService.addToBlackList(jti!!)
                 return token
             } catch (e: TokenNotFoundException) {
                 e.printStackTrace()
@@ -137,7 +165,6 @@ class AuthorizationServerConfig(
     }
 
 }
-
 
 /*@Configuration
 @EnableScheduling

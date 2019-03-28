@@ -4,9 +4,11 @@ import com.kleknersrevice.templates.Entity.OS
 import com.kleknersrevice.templates.Repository.OSRepository
 import com.kleknersrevice.templates.Service.OsService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
+@Transactional
 class OsServiceImpl(private val osRepository: OSRepository) : OsService {
 
     override fun getOs(os: OS): Optional<OS> {
@@ -30,6 +32,10 @@ class OsServiceImpl(private val osRepository: OSRepository) : OsService {
     override fun allOs(): List<OS> {
         return osRepository.findAll()
     }
+
+    /*inline fun <reified OS> allOs(): MutableList<com.kleknersrevice.templates.Entity.OS> {
+        return osRepository.findAll()
+    }*/
 
     override fun getOsById(id: Long): Optional<OS> {
         return osRepository.findById(id)

@@ -4,9 +4,11 @@ import com.kleknersrevice.templates.Entity.*
 import com.kleknersrevice.templates.Repository.TemplateRepository
 import com.kleknersrevice.templates.Service.TemplateService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
+@Transactional
 class TemplateServiceImpl(private val templateRepository: TemplateRepository) : TemplateService {
 
     override fun findTemplate(template: Template): Optional<Template> {

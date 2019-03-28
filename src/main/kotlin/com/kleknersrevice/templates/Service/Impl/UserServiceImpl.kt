@@ -1,23 +1,23 @@
 package com.kleknersrevice.templates.Service.Impl
 
 import com.kleknersrevice.templates.Entity.RoleType
-import java.util.ArrayList
 import com.kleknersrevice.templates.Entity.UserDto
 import com.kleknersrevice.templates.Entity.Users
 import com.kleknersrevice.templates.Repository.RoleRepository
 import com.kleknersrevice.templates.Repository.UserRepository
-import java.util.stream.Collectors
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.userdetails.UsernameNotFoundException
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.beans.factory.annotation.Autowired
 import com.kleknersrevice.templates.Service.UserService
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
+import java.util.stream.Collectors
 
 
 @Transactional

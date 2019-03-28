@@ -4,9 +4,11 @@ import com.kleknersrevice.templates.Entity.ChemicalType
 import com.kleknersrevice.templates.Repository.ChemicalTypeRepository
 import com.kleknersrevice.templates.Service.ChemicalTypeService
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
+@Transactional
 class ChemicalTypeServiceImpl(private val chemicalTypeRepository: ChemicalTypeRepository) : ChemicalTypeService {
 
     override fun findChemicalType(chemicalType: ChemicalType): Optional<ChemicalType> {
