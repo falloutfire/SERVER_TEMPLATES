@@ -52,7 +52,7 @@ class AuthorizationServerConfig(
     private var dbPassword: String? = null
 
     private val CLIENT_ID = "mobile_app_client"
-    private val CLIENT_SECRET = "$2a$04$1VGGg98BkCSvSLs4RDSyUu8MrYf0jkY3dgCLAy8GHJe6QA4VAM/X2"
+    private val CLIENT_SECRET = "$2a$04$2R.wNqw3EYqh0tqobaknAO00ZNUDPqMn7Y0kWSjXqtQm8EW012wk."
     private val GRANT_TYPE_PASSWORD = "password"
     private val AUTHORIZATION_CODE = "authorization_code"
     private val REFRESH_TOKEN = "refresh_token"
