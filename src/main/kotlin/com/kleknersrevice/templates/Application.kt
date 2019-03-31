@@ -1,9 +1,7 @@
 package com.kleknersrevice.templates
 
-import com.kleknersrevice.templates.Entity.UserDto
 import com.kleknersrevice.templates.Service.UserService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.scheduling.annotation.EnableAsync
@@ -11,12 +9,12 @@ import org.springframework.scheduling.annotation.EnableAsync
 
 @SpringBootApplication
 @EnableAsync
-class Application : CommandLineRunner {
+class Application /*: CommandLineRunner*/ {
 
     @Autowired
     lateinit var userService: UserService
 
-    override fun run(vararg args: String?) {
+    /*override fun run(vararg args: String?) {
 
 
         if (userService.findByUserName("admin1") == null) {
@@ -28,7 +26,7 @@ class Application : CommandLineRunner {
             userService.save(userDto)
         }
 
-    }
+    }*/
 }
 
 
