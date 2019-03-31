@@ -19,7 +19,7 @@ import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("bd_template/device/")
+@RequestMapping("bd_template/device")
 class DeviceController(
     private val deviceService: DeviceService,
     private val osService: OsService,
@@ -54,7 +54,7 @@ class DeviceController(
     }
 
     @Secured(ROLE_ADMIN)
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     fun deleteDevice(@PathVariable(value = "id") id: Long): ApiResponse {
         log.info(
             String.format(
@@ -92,20 +92,20 @@ class DeviceController(
 
     @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("")
-    fun allDevice(): List<Device> {
+    fun allDevice(): ApiResponse {
         log.info(
             String.format(
                 "received request to list device %s",
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return deviceService.allDevice()/*.run {
+        return deviceService.allDevice().run {
             ApiResponse(HttpStatus.OK, SUCCESS, this)
-        }*/
+        }
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     fun getDeviceById(@PathVariable(value = "id") id: Long): ApiResponse {
         log.info(
             String.format(
@@ -122,7 +122,7 @@ class DeviceController(
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping("find_by_os")
+    @GetMapping("/find_by_os")
     fun getAllByOs(@RequestBody os: OS): ApiResponse {
         log.info(
             String.format(

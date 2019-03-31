@@ -1,80 +1,76 @@
 package com.kleknersrevice.templates.Controller
 
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.CREATED
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.DELETED
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.UPDATED
 import com.kleknersrevice.templates.Entity.Luminophore
 import com.kleknersrevice.templates.Service.LuminophoreService
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("bd_template/luminophore/")
+@RequestMapping("bd_template/luminophore")
 class LuminophoreController(private val luminophoreService: LuminophoreService) {
 
-    //@Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN)
     @PostMapping("")
-    fun addLuminophore(@RequestBody luminophore: Luminophore): ResponseEntity<*> {
+    fun addLuminophore(@RequestBody luminophore: Luminophore): ApiResponse {
         luminophoreService.findLuminophore(luminophore).let {
-            if (!it.isPresent) {
+            return if (!it.isPresent) {
                 luminophoreService.addLuminophore(luminophore)
-                return ResponseEntity(
-                    messageJson(
-                        201,
-                        "Luminophore $it created"
-                    ), HttpStatus.CREATED
-                )
+                ApiResponse(HttpStatus.CREATED, "Luminophore $CREATED")
             } else {
-                return ResponseEntity(
-                    messageJson(
-                        200,
-                        "Luminophore $it already exist"
-                    ), HttpStatus.OK
-                )
+                ApiResponse(HttpStatus.OK, "Luminophore $EXIST")
             }
         }
     }
 
-    //@Secured("ROLE_ADMIN")
-    @DeleteMapping("{id}")
-    fun deleteLuminophore(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
+    @Secured(ROLE_ADMIN)
+    @DeleteMapping("/{id}")
+    fun deleteLuminophore(@PathVariable(value = "id") id: Long): ApiResponse {
         return luminophoreService.getLuminophoreById(id).let {
             if (it.isPresent) {
                 luminophoreService.deleteLuminophore(id)
-                ResponseEntity(messageJson(200, "Luminophore $it deleted"), HttpStatus.OK)
-            } else ResponseEntity(messageJson(404, "Luminophore $it not found"), HttpStatus.NOT_FOUND)
+                ApiResponse(HttpStatus.OK, "Luminophore $DELETED")
+            } else ApiResponse(HttpStatus.NOT_FOUND, "Luminophore $NOT_FOUND")
         }
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN)
     @PutMapping("")
-    fun updateLuminophore(@RequestBody luminophore: Luminophore): ResponseEntity<*> {
+    fun updateLuminophore(@RequestBody luminophore: Luminophore): ApiResponse {
         return luminophoreService.getLuminophoreById(luminophore.id)
             .let {
                 if (it.isPresent) {
                     luminophoreService.updateLuminophore(luminophore)
-                    ResponseEntity(messageJson(200, "Luminophore $it updated"), HttpStatus.OK)
+                    ApiResponse(HttpStatus.OK, "Luminophore $UPDATED")
                 } else {
-                    ResponseEntity(messageJson(404, "Luminophore $it not found"), HttpStatus.NOT_FOUND)
+                    ApiResponse(HttpStatus.NOT_FOUND, "Luminophore $NOT_FOUND")
                 }
             }
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("")
-    fun allLuminophore(): ResponseEntity<*> {
-        return luminophoreService.allLuminophore().let {
-            if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
+    fun allLuminophore(): ApiResponse {
+        return luminophoreService.allLuminophore().run {
+            ApiResponse(HttpStatus.OK, SUCCESS, this)
         }
     }
 
-    //@Secured("ROLE_ADMIN")
-    @GetMapping("{id}")
-    fun getLuminophoreById(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
-        return luminophoreService.getLuminophoreById(id).let {
-            if (it.isPresent) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(
-                messageJson(
-                    404,
-                    "Luminophore $it not found"
-                ), HttpStatus.NOT_FOUND
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("/{id}")
+    fun getLuminophoreById(@PathVariable(value = "id") id: Long): ApiResponse {
+        return luminophoreService.getLuminophoreById(id).run {
+            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this) else ApiResponse(
+                HttpStatus.NOT_FOUND,
+                "Luminophore $NOT_FOUND"
             )
         }
     }

@@ -79,7 +79,7 @@ class OsController(
     }
 
     @Secured(ROLE_ADMIN)
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     fun deleteOs(@PathVariable(value = "id") osId: Long): ApiResponse {
         log.info(
             String.format(
@@ -96,7 +96,7 @@ class OsController(
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     fun getOsById(@PathVariable(value = "id") osId: Long): ApiResponse {
         log.info(
             String.format(

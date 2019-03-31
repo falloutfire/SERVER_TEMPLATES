@@ -1,8 +1,13 @@
 package com.kleknersrevice.templates.Controller
 
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.CREATED
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.DELETED
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.UPDATED
 import com.kleknersrevice.templates.Entity.ChemicalType
 import com.kleknersrevice.templates.Entity.Film
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
@@ -10,12 +15,11 @@ import com.kleknersrevice.templates.Service.ChemicalTypeService
 import com.kleknersrevice.templates.Service.FilmService
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("bd_template/film/")
+@RequestMapping("bd_template/film")
 class FilmController(
     private val filmService: FilmService,
     private val chemicalTypeService: ChemicalTypeService,
@@ -32,79 +36,68 @@ class FilmController(
                 filmService.findFilm(film).let { findFilm ->
                     return if (!findFilm.isPresent) {
                         filmService.addFilm(film)
-                        ApiResponse(HttpStatus.CREATED, "OS ${CREATED}")
+                        ApiResponse(HttpStatus.CREATED, "Film $CREATED")
                     } else {
-                        ApiResponse(HttpStatus.CREATED, "OS ${CREATED}")
-                        //ResponseEntity(messageJson(200, "Film $film already exist"), HttpStatus.OK)
+                        ApiResponse(HttpStatus.CREATED, "Film $EXIST")
                     }
                 }
             } else {
-                return ApiResponse(HttpStatus.CREATED, "OS ${CREATED}")
-                //return ResponseEntity(messageJson(404, "Chemical Type $this not found"), HttpStatus.NOT_FOUND)
+                return ApiResponse(HttpStatus.NOT_FOUND, "Chemical Type $NOT_FOUND")
             }
         }
     }
 
     @Secured(ROLE_ADMIN)
-    @DeleteMapping("{id}")
-    fun deleteFilm(@PathVariable(value = "id") id: Long): ResponseEntity<HttpStatus> {
+    @DeleteMapping("/{id}")
+    fun deleteFilm(@PathVariable(value = "id") id: Long): ApiResponse {
         return filmService.getFilmById(id).let {
             if (it.isPresent) {
                 filmService.deleteFilm(id)
-                ResponseEntity(HttpStatus.FOUND)
-            } else ResponseEntity(HttpStatus.NOT_FOUND)
+                ApiResponse(HttpStatus.OK, "Film $DELETED")
+            } else ApiResponse(HttpStatus.NOT_FOUND, "Film $NOT_FOUND")
         }
     }
 
     @Secured(ROLE_ADMIN)
     @PutMapping("")
-    fun updateFilm(@RequestBody film: Film): ResponseEntity<*> {
+    fun updateFilm(@RequestBody film: Film): ApiResponse {
         return filmService.getFilmById(film.id).let {
             if (it.isPresent) {
                 filmService.updateFilm(film)
-                ResponseEntity(messageJson(200, "Film $film updated"), HttpStatus.OK)
+                ApiResponse(HttpStatus.OK, "Film $UPDATED")
             } else {
-                ResponseEntity(messageJson(404, "Film $film not found"), HttpStatus.NOT_FOUND)
+                ApiResponse(HttpStatus.NOT_FOUND, "Film $NOT_FOUND")
             }
         }
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("")
-    fun allFilm(): ResponseEntity<*> {
-        return filmService.allFilm().let {
-            if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(
-                messageJson(404),
-                HttpStatus.NOT_FOUND
+    fun allFilm(): ApiResponse {
+        return filmService.allFilm().run {
+            ApiResponse(HttpStatus.OK, SUCCESS, this)
+        }
+    }
+
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("/{id}")
+    fun getFilmById(@PathVariable(value = "id") id: Long): ApiResponse {
+        return filmService.getFilmById(id).run {
+            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this) else ApiResponse(
+                HttpStatus.NOT_FOUND,
+                "Film $NOT_FOUND"
             )
         }
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping("{id}")
-    fun getFilmById(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
-        return filmService.getFilmById(id).let {
-            if (it.isPresent) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(
-                messageJson(
-                    404,
-                    "Film $it not found"
-                ), HttpStatus.NOT_FOUND
-            )
-        }
-    }
-
-    @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping("find_by_chemical_type")
-    fun getAllByChemicalType(@RequestBody chemicalType: ChemicalType): ResponseEntity<*> {
-        return chemicalTypeService.getChemicalTypeById(chemicalType.id).let {
-            if (it.isPresent) ResponseEntity(
-                filmService.getAllByChemicalType(chemicalType),
-                HttpStatus.OK
-            ) else ResponseEntity(
-                messageJson(
-                    404,
-                    "Chemical Type $it not found"
-                ), HttpStatus.NOT_FOUND
+    @GetMapping("/find_by_chemical_type")
+    fun getAllByChemicalType(@RequestBody chemicalType: ChemicalType): ApiResponse {
+        return chemicalTypeService.getChemicalTypeById(chemicalType.id).run {
+            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this)
+            else ApiResponse(
+                HttpStatus.NOT_FOUND,
+                "Film $NOT_FOUND"
             )
         }
     }

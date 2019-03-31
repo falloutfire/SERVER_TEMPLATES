@@ -1,16 +1,22 @@
 package com.kleknersrevice.templates.Controller
 
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.CREATED
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Entity.*
 import com.kleknersrevice.templates.Service.DeviceService
 import com.kleknersrevice.templates.Service.FilmService
 import com.kleknersrevice.templates.Service.LuminophoreService
 import com.kleknersrevice.templates.Service.TemplateService
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("bd_template/template/")
+@RequestMapping("bd_template/template")
 class TemplateController(
     private val templateService: TemplateService,
     private val deviceService: DeviceService,
@@ -18,178 +24,120 @@ class TemplateController(
     private val luminophoreService: LuminophoreService
 ) {
 
-    //@Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN)
     @PostMapping("")
-    fun addTemplate(@RequestBody template: Template): ResponseEntity<*> {
-        deviceService.findDevice(template.device).let {
-            if (!it.isPresent) return ResponseEntity(
-                messageJson(404, "Device $it not found"),
-                HttpStatus.NOT_FOUND
-            )
+    fun addTemplate(@RequestBody template: Template): ApiResponse {
+        deviceService.findDevice(template.device).run {
+            if (!isPresent) return ApiResponse(HttpStatus.NOT_FOUND, "Device $NOT_FOUND")
         }
         filmService.findFilm(template.film)
-            .let {
-                if (!it.isPresent) return ResponseEntity(
-                    messageJson(404, "Film $it not found"),
-                    HttpStatus.NOT_FOUND
-                )
+            .run {
+                if (!isPresent) return ApiResponse(HttpStatus.NOT_FOUND, "Film $NOT_FOUND")
             }
         luminophoreService.findLuminophore(template.luminophore)
-            .let {
-                if (!it.isPresent) return ResponseEntity(
-                    messageJson(404, "Luminophore $it not found"),
-                    HttpStatus.NOT_FOUND
-                )
+            .run {
+                if (!isPresent) return ApiResponse(HttpStatus.NOT_FOUND, "Luminophore $NOT_FOUND")
             }
-        templateService.findTemplate(template).let {
-            if (!it.isPresent) {
+        templateService.findTemplate(template).run {
+            return if (!isPresent) {
                 templateService.addTemplate(template)
-                return ResponseEntity(
-                    messageJson(
-                        201,
-                        "Template $template created"
-                    ), HttpStatus.OK
-                )
+                ApiResponse(HttpStatus.OK, "Template $CREATED")
             } else {
-                return ResponseEntity(
-                    messageJson(
-                        200,
-                        "Template $template already exist"
-                    ), HttpStatus.OK
-                )
+                ApiResponse(HttpStatus.OK, "Template $EXIST")
             }
         }
     }
 
-    //@Secured("ROLE_ADMIN")
-    @DeleteMapping("{id}")
-    fun deleteTemplate(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
-        return templateService.getTemplateById(id).let {
-            if (it.isPresent) {
+    @Secured(ROLE_ADMIN)
+    @DeleteMapping("/{id}")
+    fun deleteTemplate(@PathVariable(value = "id") id: Long): ApiResponse {
+        return templateService.getTemplateById(id).run {
+            if (isPresent) {
                 templateService.deleteTemplate(id)
-                ResponseEntity(messageJson(200, "Template $it deleted"), HttpStatus.OK)
-            } else ResponseEntity(messageJson(404, "Template $it not found"), HttpStatus.NOT_FOUND)
+                ApiResponse(HttpStatus.OK, "Template ${ResponseValues.DELETED}")
+            } else ApiResponse(HttpStatus.NOT_FOUND, "Template ${ResponseValues.NOT_FOUND}")
         }
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN)
     @PutMapping("")
-    fun updateTemplate(@RequestBody template: Template): ResponseEntity<*> {
+    fun updateTemplate(@RequestBody template: Template): ApiResponse {
         return templateService.getTemplateById(template.id)
-            .let {
-                if (it.isPresent) {
+            .run {
+                if (isPresent) {
                     templateService.updateTemplate(template)
-                    ResponseEntity(messageJson(200, "Template $it updated"), HttpStatus.OK)
+                    ApiResponse(HttpStatus.OK, "Template ${ResponseValues.UPDATED}")
                 } else {
-                    ResponseEntity(messageJson(404, "Template $it not found"), HttpStatus.NOT_FOUND)
+                    ApiResponse(HttpStatus.NOT_FOUND, "Template ${ResponseValues.NOT_FOUND}")
                 }
             }
     }
 
-    //@Secured("ROLE_ADMIN")
+    @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("")
-    fun allTemplate(): ResponseEntity<*> {
-        return templateService.allTemplate().let {
-            if (!it.isEmpty()) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(it, HttpStatus.NOT_FOUND)
+    fun allTemplate(): ApiResponse {
+        return templateService.allTemplate().run {
+            ApiResponse(HttpStatus.OK, SUCCESS, this)
         }
     }
 
-    //@Secured("ROLE_ADMIN")
-    @GetMapping("{id}")
-    fun getTemplateById(@PathVariable(value = "id") id: Long): ResponseEntity<*> {
-        return templateService.getTemplateById(id).let {
-            if (it.isPresent) ResponseEntity(it, HttpStatus.FOUND) else ResponseEntity(
-                messageJson(
-                    404,
-                    "Template $it not found"
-                ), HttpStatus.NOT_FOUND
-            )
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("/{id}")
+    fun getTemplateById(@PathVariable(value = "id") id: Long): ApiResponse {
+        return templateService.getTemplateById(id).run {
+            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this) else
+                ApiResponse(HttpStatus.NOT_FOUND, "Template ${ResponseValues.NOT_FOUND}")
         }
     }
 
-    //@Secured("ROLE_ADMIN")
-    @GetMapping("find_by_device")
-    fun getAllByDevice(@RequestBody device: Device): ResponseEntity<*> {
-        return deviceService.getDeviceById(device.id).let {
-            if (it.isPresent) ResponseEntity(
-                templateService.getAllByDevice(device),
-                HttpStatus.OK
-            ) else ResponseEntity(
-                messageJson(
-                    404,
-                    "Device $it not found"
-                ), HttpStatus.NOT_FOUND
-            )
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("/find_by_device")
+    fun getAllByDevice(@RequestBody device: Device): ApiResponse {
+        return deviceService.getDeviceById(device.id).run {
+            if (isPresent)
+                ApiResponse(HttpStatus.OK, SUCCESS, this)
+            else ApiResponse(HttpStatus.NOT_FOUND, "Template ${ResponseValues.NOT_FOUND}")
         }
     }
 
-    //@Secured("ROLE_ADMIN")
-    @GetMapping("find_by_luminophore")
-    fun getAllByLuminophore(@RequestBody luminophore: Luminophore): ResponseEntity<*> {
-        return luminophoreService.getLuminophoreById(luminophore.id).let {
-            if (it.isPresent) ResponseEntity(
-                templateService.getAllByLuminophore(luminophore),
-                HttpStatus.OK
-            ) else ResponseEntity(
-                messageJson(
-                    404,
-                    "Luminophore $it not found"
-                ), HttpStatus.NOT_FOUND
-            )
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("/find_by_luminophore")
+    fun getAllByLuminophore(@RequestBody luminophore: Luminophore): ApiResponse {
+        return luminophoreService.getLuminophoreById(luminophore.id).run {
+            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this)
+            else ApiResponse(HttpStatus.NOT_FOUND, "Template ${ResponseValues.NOT_FOUND}")
         }
     }
 
-    //@Secured("ROLE_ADMIN")
-    @GetMapping("find_by_film")
-    fun getAllByFilm(@RequestBody film: Film): ResponseEntity<*> {
-        return filmService.getFilmById(film.id).let {
-            if (it.isPresent) ResponseEntity(
-                templateService.getAllByFilm(film),
-                HttpStatus.OK
-            ) else ResponseEntity(
-                messageJson(
-                    404,
-                    "Film $it not found"
-                ), HttpStatus.NOT_FOUND
-            )
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("/find_by_film")
+    fun getAllByFilm(@RequestBody film: Film): ApiResponse {
+        return filmService.getFilmById(film.id).run {
+            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this)
+            else ApiResponse(HttpStatus.NOT_FOUND, "Template ${ResponseValues.NOT_FOUND}")
         }
     }
 
-    //@Secured("ROLE_ADMIN")
-    @GetMapping("find_by_color/{colorScheme}")
-    fun getAllByColorScheme(@PathVariable(value = "colorScheme") colorScheme: ColorScheme): ResponseEntity<*> {
-        return ResponseEntity(templateService.getAllByColorScheme(colorScheme), HttpStatus.OK)
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("/find_by_color/{colorScheme}")
+    fun getAllByColorScheme(@PathVariable(value = "colorScheme") colorScheme: ColorScheme): ApiResponse {
+        return ApiResponse(HttpStatus.OK, SUCCESS, templateService.getAllByColorScheme(colorScheme))
     }
 
-    //@Secured("ROLE_ADMIN")
-    @GetMapping("find_by_all")
-    fun getAllByAllParameters(@RequestBody templateContext: TemplateContext): ResponseEntity<*> {
-        deviceService.findDevice(templateContext.device).let {
-            if (!it.isPresent) return ResponseEntity(
-                messageJson(404, "Device $it not found"),
-                HttpStatus.NOT_FOUND
-            )
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping("/find_by_all")
+    fun getAllByAllParameters(@RequestBody templateContext: TemplateContext): ApiResponse {
+        deviceService.findDevice(templateContext.device).run {
+            if (!isPresent) return ApiResponse(HttpStatus.NOT_FOUND, "Device $NOT_FOUND")
         }
         filmService.findFilm(templateContext.film)
-            .let {
-                if (!it.isPresent) return ResponseEntity(
-                    messageJson(404, "Film $it not found"),
-                    HttpStatus.NOT_FOUND
-                )
+            .run {
+                if (!isPresent) return ApiResponse(HttpStatus.NOT_FOUND, "Film $NOT_FOUND")
             }
         luminophoreService.findLuminophore(templateContext.luminophore)
-            .let {
-                if (!it.isPresent) return ResponseEntity(
-                    messageJson(404, "Luminophore $it not found"),
-                    HttpStatus.NOT_FOUND
-                )
+            .run {
+                if (!isPresent) return ApiResponse(HttpStatus.NOT_FOUND, "Luminophore $NOT_FOUND")
             }
-        return ResponseEntity(
-            templateService.getAllByAllParameters(
-                templateContext.device,
-                templateContext.film,
-                templateContext.luminophore
-            ), HttpStatus.OK
-        )
+        return ApiResponse()
     }
 }

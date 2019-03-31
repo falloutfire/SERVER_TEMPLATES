@@ -2,6 +2,7 @@ package com.kleknersrevice.templates.Controller
 
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Entity.UserDto
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
 import com.kleknersrevice.templates.Service.UserService
@@ -29,9 +30,7 @@ class UserController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        val list = userService.findAll()
-        val api = ApiResponse(HttpStatus.OK, "success", list)
-        return api
+        return userService.findAll().run { ApiResponse(HttpStatus.OK, SUCCESS, this) }
     }
 
     @Secured(ROLE_ADMIN)
@@ -43,7 +42,7 @@ class UserController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return ApiResponse(HttpStatus.OK, "success", userService.save(user))
+        return ApiResponse(HttpStatus.OK, SUCCESS, userService.save(user))
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
@@ -55,7 +54,7 @@ class UserController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return ApiResponse(HttpStatus.OK, "success", userService.findOne(id))
+        return ApiResponse(HttpStatus.OK, SUCCESS, userService.findOne(id))
     }
 
     @Secured(ROLE_ADMIN)

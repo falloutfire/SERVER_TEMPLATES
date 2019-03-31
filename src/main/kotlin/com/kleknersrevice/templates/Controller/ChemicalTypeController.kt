@@ -17,7 +17,7 @@ import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("bd_template/chemical_types/")
+@RequestMapping("bd_template/chemical_types")
 class ChemicalTypeController(
     private val chemicalTypeService: ChemicalTypeService,
     private val authenticationFacadeService: AuthenticationFacadeService
@@ -59,7 +59,7 @@ class ChemicalTypeController(
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     fun getChemicalTypeById(@PathVariable(value = "id") chemicalTypeId: Long): ApiResponse {
         log.info(
             String.format(
@@ -74,7 +74,7 @@ class ChemicalTypeController(
     }
 
     @Secured(ROLE_ADMIN)
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     fun deleteChemicalTypeById(@PathVariable(value = "id") chemicalTypeId: Long): ApiResponse {
         log.info(
             String.format(
