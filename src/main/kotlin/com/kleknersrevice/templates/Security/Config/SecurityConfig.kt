@@ -30,50 +30,6 @@ import javax.sql.DataSource
  * SecurityConfig
  */
 
-/*
-@Configuration
-@EnableWebSecurity(debug = true)
-@EnableGlobalMethodSecurity(securedEnabled = true)
-//@Order(SecurityProperties.BASIC_AUTH_ORDER)
-class SecurityConfig : WebSecurityConfigurerAdapter() {
-
-    @Resource(name = "userService")
-    lateinit var userDetailsService: UserDetailsService
-
-    @Bean
-    override fun authenticationManagerBean(): AuthenticationManager {
-        return super.authenticationManagerBean()
-    }
-
-    @Bean
-    fun authenticationProvider(): DaoAuthenticationProvider {
-        val provider = DaoAuthenticationProvider()
-        provider.setPasswordEncoder(encoder())
-        provider.setUserDetailsService(userDetailsService())
-        return provider
-    }
-
-    @Bean
-    fun encoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
-
-    override fun configure(http: HttpSecurity) {
-        http
-            .csrf().disable()
-            .formLogin().disable()
-            .anonymous().disable()
-            .httpBasic().and()
-            .authorizeRequests().anyRequest().authenticated()
-        //.antMatchers("/api-docs/**").permitAll()
-    }
-
-    @Autowired
-    fun globalUserDetails(auth: AuthenticationManagerBuilder) {
-        auth.userDetailsService(userDetailsService)
-            .passwordEncoder(encoder())
-    }
-}*/*/
-
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

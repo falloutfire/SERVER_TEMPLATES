@@ -16,28 +16,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
  * Нет настроек защиты конечных точек, так как используется защита на
  * уровне методов с аннотациями @Secured
  */
-/*
-@Configuration
-@EnableResourceServer
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-class ResourceServerConfig(private val tokenServices: DefaultTokenServices, private val tokenStore: TokenStore) :
-    ResourceServerConfigurerAdapter() {
 
-    private val RESOURCE_ID = "resource_id"
-
-    override fun configure(resources: ResourceServerSecurityConfigurer) {
-        resources.resourceId(RESOURCE_ID)
-            .tokenServices(tokenServices)
-            .tokenStore(tokenStore)//.stateless(false)
-    }
-
-    override fun configure(http: HttpSecurity) {
-        http.anonymous().disable()
-            .authorizeRequests()
-            .antMatchers("/admin/**").access("hasRole('ADMIN')")
-            .and().exceptionHandling().accessDeniedHandler(OAuth2AccessDeniedHandler())
-    }
-}*/*/
 
 @Configuration
 @EnableResourceServer
