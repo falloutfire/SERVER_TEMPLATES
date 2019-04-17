@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices
 import org.springframework.security.oauth2.provider.token.TokenStore
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
+import org.springframework.security.web.session.SessionManagementFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.filter.CorsFilter
@@ -61,6 +62,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
+            .addFilterBefore(corsFilter(), SessionManagementFilter::class.java)
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
@@ -104,6 +106,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         config.addAllowedOrigin("*")
         config.addAllowedHeader("*")
         config.addAllowedMethod("*")
+        config.maxAge = 3600
+        config.exposedHeaders = arrayListOf("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
         source.registerCorsConfiguration("/**", config)
         return CorsFilter(source)
     }
