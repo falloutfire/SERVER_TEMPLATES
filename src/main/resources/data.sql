@@ -1,3 +1,7 @@
+drop table if exists user_role;
+drop table if exists app_role;
+drop table if exists app_user;
+
 CREATE TABLE app_role (
                         id bigint NOT NULL ,
                         description varchar(255) DEFAULT NULL,
@@ -16,6 +20,7 @@ CREATE TABLE app_user (
                         PRIMARY KEY (id)
 );
 
+
 CREATE TABLE user_role (
                          user_id bigint NOT NULL,
                          role_id bigint NOT NULL,
@@ -28,8 +33,10 @@ INSERT INTO app_role (id, role_name, description) VALUES (2, 'ADMIN_USER', 'Admi
 
 -- USER
 -- non-encrypted password: jwtpass
-INSERT INTO app_user (id, first_name, last_name, password, username) VALUES (1, 'Ilya', 'Man', '$2a$04$Cba8DVPiJDqJMTYVsGQmpuEnW4nVcfNke/d9XG0EOKPXyHZfbqXTC', 'user');
-INSERT INTO app_user (id, first_name, last_name, password, username) VALUES (2, 'Admin', 'Admin', '$2a$04$EZzbSqieYfe/nFWfBWt2KeCdyq0UuDEM1ycFF8HzmlVR6sbsOnw7u', 'admin');
+INSERT INTO app_user (id, first_name, last_name, password, username, email)
+VALUES (1, 'Ilya', 'Man', '$2a$04$Cba8DVPiJDqJMTYVsGQmpuEnW4nVcfNke/d9XG0EOKPXyHZfbqXTC', 'user', 'test@gmail.com');
+INSERT INTO app_user (id, first_name, last_name, password, username, email)
+VALUES (2, 'Admin', 'Admin', '$2a$04$EZzbSqieYfe/nFWfBWt2KeCdyq0UuDEM1ycFF8HzmlVR6sbsOnw7u', 'admin', 'test@gmail.com');
 
 
 INSERT INTO user_role(user_id, role_id) VALUES(1,1);
