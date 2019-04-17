@@ -1,11 +1,9 @@
 package com.kleknersrevice.templates.Repository
 
-import com.kleknersrevice.templates.Entity.Users
+import com.kleknersrevice.templates.Entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 
-interface UserRepository : JpaRepository<Users, Long> {
-    fun findByUsername(username: String): Optional<Users>
-    fun findByEmail(email: String): Optional<Users>
-    fun deleteUsersById(id: Long)
+interface UserRepository : JpaRepository<User, Long> {
+    fun findByUsername(username: String): Optional<User>
 }

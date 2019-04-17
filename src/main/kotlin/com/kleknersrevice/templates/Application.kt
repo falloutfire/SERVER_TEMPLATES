@@ -1,7 +1,5 @@
 package com.kleknersrevice.templates
 
-import com.kleknersrevice.templates.Service.UserService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.scheduling.annotation.EnableAsync
@@ -11,8 +9,8 @@ import org.springframework.scheduling.annotation.EnableAsync
 @EnableAsync
 class Application /*: CommandLineRunner*/ {
 
-    @Autowired
-    lateinit var userService: UserService
+    /*@Autowired
+    lateinit var userService: UserService*/
 
     /*override fun run(vararg args: String?) {
 

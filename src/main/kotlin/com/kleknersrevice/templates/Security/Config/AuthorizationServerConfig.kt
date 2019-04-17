@@ -1,28 +1,18 @@
 package com.kleknersrevice.templates.Security.Config
 
-import com.kleknersrevice.templates.Entity.Users
-import com.kleknersrevice.templates.Service.Impl.TokenNotFoundException
-import com.kleknersrevice.templates.Service.TokenBlackListService
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Primary
-import org.springframework.jdbc.datasource.DriverManagerDataSource
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.oauth2.common.OAuth2AccessToken
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer
-import org.springframework.security.oauth2.provider.OAuth2Authentication
-import org.springframework.security.oauth2.provider.TokenRequest
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
 import org.springframework.security.oauth2.provider.token.TokenStore
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
-import javax.security.sasl.AuthenticationException
-import javax.sql.DataSource
 
 
 /**
@@ -31,11 +21,11 @@ import javax.sql.DataSource
  * Присутствует конфигурация JWT token store, вместе кодом протокола OAUTH2 для
  * настройки client_id, client-secret и grant_type.
  */
+/*
 @Configuration
 @EnableAuthorizationServer
 class AuthorizationServerConfig(
-    private var authenticationManager: AuthenticationManager,
-    private val blackListService: TokenBlackListService
+    private var authenticationManager: AuthenticationManager
 ) :
     AuthorizationServerConfigurerAdapter() {
 
@@ -65,7 +55,9 @@ class AuthorizationServerConfig(
 
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer) {
         endpoints.authenticationManager(authenticationManager)
-            /*.accessTokenConverter(accessTokenConverter())*/
+            */
+/*.accessTokenConverter(accessTokenConverter())*//*
+
             .tokenStore(tokenStore()).tokenServices(tokenServices())
     }
 
@@ -113,76 +105,51 @@ class AuthorizationServerConfig(
         return tokenService
     }
 
-    open class CustomTokenService(private val blackListService: TokenBlackListService) : DefaultTokenServices() {
-        var logger = LoggerFactory.getLogger(CustomTokenService::class.java)
+}*/
 
-        @Throws(AuthenticationException::class)
-        override fun createAccessToken(authentication: OAuth2Authentication): OAuth2AccessToken {
-            val token = super.createAccessToken(authentication)
-            val account = authentication.principal as Users
-            val jti = token.additionalInformation["jti"] as String
+@Configuration
+@EnableAuthorizationServer
+class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
-            /*blackListService.getAllTokensByUserId(account.id!!).forEach {
-                if (it.accessToken != null && !it.isBlackListed!!) {
-                    if(!super.isExpired(it.refreshToken as OAuth2RefreshToken)) {
-                        super.revokeToken(it.accessToken)
-                        blackListService.addToBlackList(it.jti!!)
-                    }
+    @Autowired
+    private val tokenStore: TokenStore? = null
 
-                    //super.getClientId(it.accessToken)
-                    //authentication.userAuthentication.isAuthenticated = false
-                }
-            }
+    @Autowired
+    private val accessTokenConverter: JwtAccessTokenConverter? = null
 
-            blackListService.addToEnableList(
-                account.id!!,
-                jti,
-                token.expiration.time, token.value, token.refreshToken.value
-            )*/
-            return token
-        }
+    @Autowired
+    private val authenticationManager: AuthenticationManager? = null
 
+    @Qualifier("userService")
+    @Autowired
+    private val userDetailsService: UserDetailsService? = null
 
-        @Throws(AuthenticationException::class)
-        override fun refreshAccessToken(refreshTokenValue: String, tokenRequest: TokenRequest): OAuth2AccessToken? {
-            logger.info("refresh token:$refreshTokenValue")
-            val jti = tokenRequest.requestParameters["jti"]
-            try {
-                /*if (jti != null)
-                    if (blackListService.isBlackListed(jti)!!) return null*/
+    @Autowired
+    private val jdbcTemplate: JdbcTemplate? = null
 
-                val token = super.refreshAccessToken(refreshTokenValue, tokenRequest)
-
-
-                //blackListService.addToBlackList(jti!!)
-                return token
-            } catch (e: TokenNotFoundException) {
-                e.printStackTrace()
-                return null
-            }
-
-        }
+    @Throws(Exception::class)
+    override fun configure(configurer: ClientDetailsServiceConfigurer?) {
+        configurer!!
+            .jdbc(jdbcTemplate!!.dataSource)
     }
+
+
+    @Throws(Exception::class)
+    override fun configure(endpoints: AuthorizationServerEndpointsConfigurer?) {
+        endpoints!!.tokenStore(tokenStore)
+            .reuseRefreshTokens(false)
+            .accessTokenConverter(accessTokenConverter)
+            .authenticationManager(authenticationManager)
+            .userDetailsService(userDetailsService)
+    }
+
+
+    @Throws(Exception::class)
+    override fun configure(oauthServer: AuthorizationServerSecurityConfigurer?) {
+        oauthServer!!.tokenKeyAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
+            .checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
+    }
+
 
 }
 
-/*@Configuration
-@EnableScheduling
-class ScheduledTasks {
-
-    @Resource(name = "tokenServices")
-    lateinit var tokenServices: DefaultTokenServices
-
-    @Scheduled(fixedRate = 6000)
-    fun reportCurrentTime() {
-
-        //val services = tokenServices as DefaultTokenServices
-        //tokenServices.
-        println("The time is now " + dateFormat.format(Date()))
-    }
-
-    companion object {
-
-        private val dateFormat = SimpleDateFormat("HH:mm:ss")
-    }
-}*/

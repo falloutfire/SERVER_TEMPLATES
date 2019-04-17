@@ -1,28 +1,21 @@
 package com.kleknersrevice.templates.Entity
 
-import java.io.Serializable
 import javax.persistence.*
 
 @Entity
-@Table(name = "Roles")
-data class Roles(
+@Table(name = "app_role")
+class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    var id: Long,
+    var id: Long? = null
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "NAME")
-    var name: RoleType,
-    @Column(name = "DESCRIPTION")
-    var description: String,
-    @Column(name = "CREATED_ON")
-    var createdOn: Long,
-    @Column(name = "MODIFIED_ON")
-    var modifiedOn: Long
-) : Serializable
+    @Column(name = "role_name")
+    var roleName: String? = null
 
-enum class RoleType {
+    @Column(name = "description")
+    var description: String? = null
 
-    ADMIN, USER_CREATE, USER_UPDATE, USER
+    companion object {
+        private val serialVersionUID = 1L
+    }
 }
