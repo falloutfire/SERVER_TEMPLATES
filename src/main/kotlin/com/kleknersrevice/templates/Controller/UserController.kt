@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(maxAge = 3600)
 class UserController(
     private val userService: AppUserService,
     private val authenticationFacadeService: AuthenticationFacadeService
