@@ -30,22 +30,28 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
     @Autowired
     private val passwordEncoder: BCryptPasswordEncoder? = null
 
-    override fun addUser(user: User) {
+    override fun saveUser(user: User) {
         val userWithDuplicateUsername = userRepository!!.findByUsername(user.username!!)
         if (userWithDuplicateUsername.isPresent && user.id !== userWithDuplicateUsername.get().id) {
             log.error(String.format("Duplicate username ", user.username))
             throw RuntimeException("Duplicate username.")
         }
-        /*val userWithDuplicateEmail = userRepository.findByEmail(userDto.email!!)
-        if (userWithDuplicateEmail.isPresent && userDto.id !== userWithDuplicateEmail.get().id) {
-            log.error(String.format("Duplicate email ", userDto.email))
+        val userWithDuplicateEmail = userRepository.findByEmail(user.email!!)
+        if (userWithDuplicateEmail.isPresent && user.id !== userWithDuplicateEmail.get().id) {
+            log.error(String.format("Duplicate email ", user.email))
             throw RuntimeException("Duplicate email.")
-        }*/
+        }
         val userSave = User()
         userSave.username = user.username
         userSave.password = passwordEncoder!!.encode(user.password!!)
         val roleTypes = ArrayList<Role>()
-        user.roles!!.stream().map { role -> roleTypes.add(role) }
+        user.roles!!.stream().map { role ->
+            roleRepository?.findRoleByRoleName(role.roleName!!).let {
+                if (it!!.isPresent) {
+                    roleTypes.add(role)
+                }
+            }
+        }
         userSave.roles = user.roles//roleRepository!!.find(user.roles!!)
         userRepository.save(userSave)
         //return userSave
@@ -53,10 +59,6 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
 
     override fun deleteUser(id: Long) {
         userRepository?.deleteById(id)
-    }
-
-    override fun editUser(user: User) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun findOneUser(id: Long): User {

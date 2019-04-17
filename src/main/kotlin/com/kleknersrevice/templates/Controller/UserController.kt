@@ -42,7 +42,7 @@ class UserController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return ApiResponse(HttpStatus.OK, SUCCESS, userService.addUser(user))
+        return ApiResponse(HttpStatus.OK, SUCCESS, userService.saveUser(user))
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
