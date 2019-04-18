@@ -46,7 +46,12 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
         userSave.password = passwordEncoder!!.encode(user.password!!)
         val roleTypes = ArrayList<Role>()
         user.roles!!.stream().map { role ->
-            roleRepository?.findRoleByRoleName(role.roleName!!).let {
+            /*roleRepository?.findRoleByRoleName(role.roleName!!).let {
+                if (it!!.isPresent) {
+                    roleTypes.add(role)
+                }
+            }*/
+            roleRepository?.findRoleById(role.id!!).let {
                 if (it!!.isPresent) {
                     roleTypes.add(role)
                 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(maxAge = 3600)
 class UserController(
     private val userService: AppUserService,
     private val authenticationFacadeService: AuthenticationFacadeService
@@ -46,6 +45,18 @@ class UserController(
         return ApiResponse(HttpStatus.OK, SUCCESS, userService.saveUser(user))
     }
 
+    @Secured(ROLE_ADMIN)
+    @PutMapping
+    fun save(@RequestBody user: User): ApiResponse {
+        log.info(
+            String.format(
+                "received request to create user %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
+        return ApiResponse(HttpStatus.OK, SUCCESS, userService.saveUser(user))
+    }
+
     @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping(value = ["/{id}"])
     fun getUser(@PathVariable id: Long): ApiResponse {
@@ -60,7 +71,7 @@ class UserController(
 
     @Secured(ROLE_ADMIN)
     @DeleteMapping(value = ["/{id}"])
-    fun delete(@PathVariable(value = "id") id: Long?) {
+    fun delete(@PathVariable(value = "id") id: Long?): List<User> {
         log.info(
             String.format(
                 "received request to delete user %s",
@@ -68,7 +79,7 @@ class UserController(
             )
         )
         userService.deleteUser(id!!)
+        return userService.findAllUser()
     }
-
 }
 
