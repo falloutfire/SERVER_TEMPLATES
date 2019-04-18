@@ -28,8 +28,10 @@ CREATE TABLE user_role (
                          CONSTRAINT FKa68196081fvovjhkek5m97n3y FOREIGN KEY (role_id) REFERENCES app_role (id)
 );
 
-INSERT INTO app_role (id, role_name, description) VALUES (1, 'STANDARD_USER', 'Standard User - Has no admin rights');
-INSERT INTO app_role (id, role_name, description) VALUES (2, 'ADMIN_USER', 'Admin User - Has permission to perform admin tasks');
+INSERT INTO app_role (id, role_name, description)
+VALUES (1, 'ROLE_USER', 'Standard User - Has no admin rights');
+INSERT INTO app_role (id, role_name, description)
+VALUES (2, 'ROLE_ADMIN', 'Admin User - Has permission to perform admin tasks');
 
 -- USER
 -- non-encrypted password: jwtpass

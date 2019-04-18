@@ -32,8 +32,8 @@ import javax.sql.DataSource
  */
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity(debug = true)
+@EnableGlobalMethodSecurity(/*prePostEnabled = true,*/ securedEnabled = true)
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Value("\${security.signing-key}")
@@ -65,6 +65,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .addFilterBefore(corsFilter(), SessionManagementFilter::class.java)
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            /*.and()
+            .authorizeRequests().anyRequest().authenticated()*/
             .and()
             .httpBasic()
             .realmName(securityRealm)
