@@ -11,5 +11,5 @@ interface AppUserService {
 }
 
 interface RoleService {
-    fun findAllRole(): List<Role>?
+    fun findAllRole(): List<Role>
 }

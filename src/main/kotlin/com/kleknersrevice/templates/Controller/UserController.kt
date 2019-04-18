@@ -105,6 +105,6 @@ class RoleController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return roleService.findAllRole().run { ApiResponse(HttpStatus.OK, SUCCESS, this!!) }
+        return roleService.findAllRole().run { ApiResponse(HttpStatus.OK, SUCCESS, this) }
     }
 }

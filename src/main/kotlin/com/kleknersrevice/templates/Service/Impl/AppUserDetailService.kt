@@ -99,8 +99,8 @@ class RoleServiceImpl : RoleService {
     @Autowired
     private val roleRepository: RoleRepository? = null
 
-    override fun findAllRole(): List<Role>? {
-        return roleRepository?.findAll()
+    override fun findAllRole(): List<Role> {
+        return roleRepository?.findAll()!!
     }
 
 }
