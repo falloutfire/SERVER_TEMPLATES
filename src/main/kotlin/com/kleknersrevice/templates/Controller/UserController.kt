@@ -6,6 +6,7 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Entity.User
 import com.kleknersrevice.templates.Service.AppUserService
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
+import com.kleknersrevice.templates.Service.RoleService
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.annotation.Secured
@@ -83,3 +84,27 @@ class UserController(
     }
 }
 
+
+@RestController
+@RequestMapping("/roles")
+class RoleController(
+    private val roleService: RoleService,
+    private val authenticationFacadeService: AuthenticationFacadeService
+) {
+
+    companion object {
+        private val log = LoggerFactory.getLogger(UserController::class.java)
+    }
+
+    @Secured(ROLE_ADMIN, ROLE_USER)
+    @GetMapping
+    fun listRole(): ApiResponse {
+        log.info(
+            String.format(
+                "received request to list user %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
+        return roleService.findAllRole().run { ApiResponse(HttpStatus.OK, SUCCESS, this!!) }
+    }
+}

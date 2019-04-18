@@ -5,6 +5,7 @@ import com.kleknersrevice.templates.Entity.User
 import com.kleknersrevice.templates.Repository.RoleRepository
 import com.kleknersrevice.templates.Repository.UserRepository
 import com.kleknersrevice.templates.Service.AppUserService
+import com.kleknersrevice.templates.Service.RoleService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.GrantedAuthority
@@ -89,4 +90,17 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
 
         private val log = LoggerFactory.getLogger(AppUserDetailsService::class.java)
     }
+}
+
+
+@Component
+@Service
+class RoleServiceImpl : RoleService {
+    @Autowired
+    private val roleRepository: RoleRepository? = null
+
+    override fun findAllRole(): List<Role>? {
+        return roleRepository?.findAll()
+    }
+
 }
