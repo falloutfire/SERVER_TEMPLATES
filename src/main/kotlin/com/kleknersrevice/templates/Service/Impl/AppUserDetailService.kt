@@ -33,34 +33,25 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
 
     override fun saveUser(user: User) {
         val userWithDuplicateUsername = userRepository!!.findByUsername(user.username!!)
-        if (userWithDuplicateUsername.isPresent && user.id !== userWithDuplicateUsername.get().id) {
+        if (userWithDuplicateUsername.isPresent && user.id != userWithDuplicateUsername.get().id) {
             log.error(String.format("Duplicate username ", user.username))
             throw RuntimeException("Duplicate username.")
         }
         val userWithDuplicateEmail = userRepository.findByEmail(user.email!!)
-        if (userWithDuplicateEmail.isPresent && user.id !== userWithDuplicateEmail.get().id) {
+        if (userWithDuplicateEmail.isPresent && user.id != userWithDuplicateEmail.get().id) {
             log.error(String.format("Duplicate email ", user.email))
             throw RuntimeException("Duplicate email.")
         }
-        val userSave = User()
-        userSave.username = user.username
-        userSave.password = passwordEncoder!!.encode(user.password!!)
+        user.password = passwordEncoder!!.encode(user.password!!)
         val roleTypes = ArrayList<Role>()
         user.roles!!.stream().map { role ->
-            /*roleRepository?.findRoleByRoleName(role.roleName!!).let {
-                if (it!!.isPresent) {
-                    roleTypes.add(role)
-                }
-            }*/
             roleRepository?.findRoleById(role.id!!).let {
                 if (it!!.isPresent) {
                     roleTypes.add(role)
                 }
             }
         }
-        userSave.roles = user.roles//roleRepository!!.find(user.roles!!)
-        userRepository.save(userSave)
-        //return userSave
+        userRepository.save(user)
     }
 
     override fun deleteUser(id: Long) {

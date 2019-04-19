@@ -38,7 +38,8 @@ VALUES (2, 'ROLE_ADMIN', 'Admin User - Has permission to perform admin tasks');
 INSERT INTO app_user (id, first_name, last_name, password, username, email)
 VALUES (1, 'Ilya', 'Man', '$2a$04$Cba8DVPiJDqJMTYVsGQmpuEnW4nVcfNke/d9XG0EOKPXyHZfbqXTC', 'user', 'test@gmail.com');
 INSERT INTO app_user (id, first_name, last_name, password, username, email)
-VALUES (2, 'Admin', 'Admin', '$2a$04$EZzbSqieYfe/nFWfBWt2KeCdyq0UuDEM1ycFF8HzmlVR6sbsOnw7u', 'admin', 'test@gmail.com');
+VALUES (2, 'Admin', 'Admin', '$2a$04$EZzbSqieYfe/nFWfBWt2KeCdyq0UuDEM1ycFF8HzmlVR6sbsOnw7u', 'admin',
+        'test2@gmail.com');
 
 
 INSERT INTO user_role(user_id, role_id) VALUES(1,1);

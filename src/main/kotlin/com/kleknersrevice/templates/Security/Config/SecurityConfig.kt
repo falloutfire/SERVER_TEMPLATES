@@ -3,14 +3,18 @@ package com.kleknersrevice.templates.Security.Config
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
+import org.springframework.core.Ordered
 import org.springframework.dao.EmptyResultDataAccessException
+import org.springframework.http.HttpMethod
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -21,10 +25,10 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices
 import org.springframework.security.oauth2.provider.token.TokenStore
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
-import org.springframework.security.web.session.SessionManagementFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.filter.CorsFilter
+import java.util.*
 import javax.sql.DataSource
 
 /**
@@ -62,7 +66,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
-            .addFilterBefore(corsFilter(), SessionManagementFilter::class.java)
+            //.addFilterBefore(corsFilter(), SessionManagementFilter::class.java)
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             /*.and()
@@ -84,6 +88,13 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     }
 
 
+    @Throws(Exception::class)
+    override fun configure(web: WebSecurity) {
+        web.ignoring().antMatchers(HttpMethod.OPTIONS)
+    }
+
+
+
     @Bean
     fun tokenStore(): TokenStore {
         //return new JdbcTokenStore(jdbcTemplate.getDataSource());
@@ -100,7 +111,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         return defaultTokenServices
     }
 
-    @Bean
+    /*@Bean
     fun corsFilter(): CorsFilter {
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
@@ -112,6 +123,24 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         config.exposedHeaders = arrayListOf("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
         source.registerCorsConfiguration("/**", config)
         return CorsFilter(source)
+    }*/*/
+
+    @Bean
+    fun corsFilterRegistrationBean(): FilterRegistrationBean<*> {
+        val source = UrlBasedCorsConfigurationSource()
+        val config = CorsConfiguration()
+        config.applyPermitDefaultValues()
+        config.allowCredentials = true
+        config.allowedOrigins = Arrays.asList("*")
+        config.allowedHeaders = Arrays.asList("*")
+        config.allowedMethods = Arrays.asList("*")
+        config.exposedHeaders =
+            Arrays.asList("content-length", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+        config.maxAge = 3600L
+        source.registerCorsConfiguration("/**", config)
+        val bean = FilterRegistrationBean(CorsFilter(source))
+        bean.order = Ordered.HIGHEST_PRECEDENCE
+        return bean
     }
 
 

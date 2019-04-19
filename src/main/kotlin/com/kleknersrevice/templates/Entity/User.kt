@@ -1,31 +1,28 @@
 package com.kleknersrevice.templates.Entity
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
 @Table(name = "app_user")
-class User {
+class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    var id: Long? = null
+    var id: Long? = null,
 
     @Column(name = "username")
-    var username: String? = null
+    var username: String? = null,
 
     @Column(name = "password")
-    @JsonIgnore
-    var password: String? = null
+    var password: String? = null,
 
     @Column(name = "first_name")
-    var firstName: String? = null
+    var firstName: String? = null,
 
     @Column(name = "last_name")
-    var lastName: String? = null
+    var lastName: String? = null,
 
     @Column(name = "email")
-    var email: String? = null
+    var email: String? = null,
 
     /**
      * Roles are being eagerly loaded here because
@@ -38,4 +35,4 @@ class User {
         inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
     )
     var roles: List<Role>? = null
-}
+)
