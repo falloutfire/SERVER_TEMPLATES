@@ -36,3 +36,19 @@ class User(
     )
     var roles: List<Role>? = null
 )
+
+class UserDto(
+    var id: Long? = null,
+    var username: String? = null,
+    var firstName: String? = null,
+    var lastName: String? = null,
+    var email: String? = null,
+    var roles: List<Role>? = null
+) {
+
+    companion object {
+        fun toUserDto(user: User): UserDto {
+            return UserDto(user.id, user.username, user.firstName, user.lastName, user.email, user.roles)
+        }
+    }
+}

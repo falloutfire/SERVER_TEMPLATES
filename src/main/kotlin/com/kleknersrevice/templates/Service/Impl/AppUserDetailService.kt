@@ -2,6 +2,7 @@ package com.kleknersrevice.templates.Service.Impl
 
 import com.kleknersrevice.templates.Entity.Role
 import com.kleknersrevice.templates.Entity.User
+import com.kleknersrevice.templates.Entity.UserDto
 import com.kleknersrevice.templates.Repository.RoleRepository
 import com.kleknersrevice.templates.Repository.UserRepository
 import com.kleknersrevice.templates.Service.AppUserService
@@ -16,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Component
 @Service("userService")
@@ -58,12 +58,14 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
         userRepository?.deleteById(id)
     }
 
-    override fun findOneUser(id: Long): User {
-        return userRepository!!.findById(id).get()
+    override fun findOneUser(id: Long): UserDto {
+        return UserDto.toUserDto(userRepository!!.findById(id).get())
     }
 
-    override fun findAllUser(): List<User> {
-        return userRepository!!.findAll()
+    override fun findAllUser(): List<UserDto> {
+        return userRepository!!.findAll().map {
+            UserDto.toUserDto(it)
+        }
     }
 
     @Throws(UsernameNotFoundException::class)

@@ -4,6 +4,7 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADM
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Entity.User
+import com.kleknersrevice.templates.Entity.UserDto
 import com.kleknersrevice.templates.Service.AppUserService
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
 import com.kleknersrevice.templates.Service.RoleService
@@ -72,7 +73,7 @@ class UserController(
 
     @Secured(ROLE_ADMIN)
     @DeleteMapping(value = ["/{id}"])
-    fun delete(@PathVariable(value = "id") id: Long?): List<User> {
+    fun delete(@PathVariable(value = "id") id: Long?): List<UserDto> {
         log.info(
             String.format(
                 "received request to delete user %s",
