@@ -13,11 +13,11 @@ class Template(
     @Enumerated(EnumType.STRING)
     var colorScheme: ColorScheme,
     @Column(name = "x")
-    var xColor: String,
+    var xcolor: String,
     @Column(name = "y")
-    var yColor: String,
+    var ycolor: String,
     @Column(name = "z")
-    var zColor: String,
+    var zcolor: String,
     @Column(name = "Delta_X")
     var xDelta: String,
     @Column(name = "Delta_Y")
