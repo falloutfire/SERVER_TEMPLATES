@@ -12,11 +12,11 @@ class Template(
     val id: Long,
     @Enumerated(EnumType.STRING)
     var colorScheme: ColorScheme,
-    @Column(name = "X")
+    @Column(name = "x")
     var xColor: String,
-    @Column(name = "Y")
+    @Column(name = "y")
     var yColor: String,
-    @Column(name = "Z")
+    @Column(name = "z")
     var zColor: String,
     @Column(name = "Delta_X")
     var xDelta: String,
