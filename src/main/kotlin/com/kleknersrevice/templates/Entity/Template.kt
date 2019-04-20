@@ -12,18 +12,18 @@ class Template(
     val id: Long,
     @Enumerated(EnumType.STRING)
     var colorScheme: ColorScheme,
-    @Column(name = "X")
-    var xColor: String,
-    @Column(name = "Y")
-    var yColor: String,
-    @Column(name = "Z")
-    var zColor: String,
+    @Column(name = "x")
+    var xcolor: String,
+    @Column(name = "y")
+    var ycolor: String,
+    @Column(name = "z")
+    var zcolor: String,
     @Column(name = "Delta_X")
-    var xDelta: String,
+    var xdelta: String,
     @Column(name = "Delta_Y")
-    var yDelta: String,
+    var ydelta: String,
     @Column(name = "Delta_Z")
-    var zDelta: String,
+    var zdelta: String,
     @Column(name = "Rounding")
     var rounding: String,
 

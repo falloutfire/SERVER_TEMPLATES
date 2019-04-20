@@ -21,20 +21,20 @@ interface TemplateRepository : JpaRepository<Template, Long> {
 
     @Query(
         "select t from Template t where t.device = :device and t.film = :film and t.luminophore = :luminophore " +
-                "and t.rounding = :rounding and t.xColor = :xColor and t.yColor = :yColor and t.zColor = :zColor " +
-                "and t.xDelta = :xDelta and t.yDelta = :yDelta and t.zDelta = :zDelta and t.colorScheme = :colorScheme"
+                "and t.rounding = :rounding and t.xcolor = :xcolor and t.ycolor = :ycolor and t.zcolor = :zcolor " +
+                "and t.xdelta = :xdelta and t.ydelta = :ydelta and t.zdelta = :zdelta and t.colorScheme = :colorScheme"
     )
     fun findTemplate(
         @Param("device") device: Device,
         @Param("film") film: Film,
         @Param("luminophore") luminophore: Luminophore,
         @Param("rounding") rounding: String,
-        @Param("xColor") xColor: String,
-        @Param("yColor") yColor: String,
-        @Param("zColor") zColor: String,
-        @Param("xDelta") xDelta: String,
-        @Param("yDelta") yDelta: String,
-        @Param("zDelta") zDelta: String,
+        @Param("xcolor") xcolor: String,
+        @Param("ycolor") ycolor: String,
+        @Param("zcolor") zcolor: String,
+        @Param("xdelta") xdelta: String,
+        @Param("ydelta") ydelta: String,
+        @Param("zdelta") zdelta: String,
         @Param("colorScheme") colorScheme: ColorScheme
     ): Optional<Template>
 }

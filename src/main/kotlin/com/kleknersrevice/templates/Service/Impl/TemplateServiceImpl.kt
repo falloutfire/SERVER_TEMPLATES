@@ -17,12 +17,12 @@ class TemplateServiceImpl(private val templateRepository: TemplateRepository) : 
             template.film,
             template.luminophore,
             template.rounding,
-            template.xColor,
-            template.yColor,
-            template.zColor,
-            template.xDelta,
-            template.yDelta,
-            template.zDelta,
+            template.xcolor,
+            template.ycolor,
+            template.zcolor,
+            template.xdelta,
+            template.ydelta,
+            template.zdelta,
             template.colorScheme
         )
     }
