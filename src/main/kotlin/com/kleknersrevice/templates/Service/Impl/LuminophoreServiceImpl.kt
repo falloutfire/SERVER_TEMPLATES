@@ -12,7 +12,14 @@ import java.util.*
 class LuminophoreServiceImpl(private val luminophoreRepository: LuminophoreRepository) : LuminophoreService {
 
     override fun findLuminophore(luminophore: Luminophore): Optional<Luminophore> {
-        return luminophoreRepository.findLuminophore(luminophore.name, luminophore.color, luminophore.size)
+        return luminophoreRepository.findLuminophoreByActivationTimeAndAfterglowAndNameAndColorAndSizeAndBrightness(
+            luminophore.activationTime,
+            luminophore.afterglow,
+            luminophore.name,
+            luminophore.color,
+            luminophore.size,
+            luminophore.brightness
+        )
     }
 
     override fun addLuminophore(luminophore: Luminophore) {

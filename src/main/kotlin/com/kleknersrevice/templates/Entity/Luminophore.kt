@@ -13,5 +13,11 @@ class Luminophore(
     @Column(name = "Color")
     var color: String,
     @Column(name = "Size")
-    var size: Double
+    var size: Double,
+    @Column(name = "Brightness")
+    var brightness: Int,
+    @Column(name = "Afterglow")
+    var afterglow: Int,
+    @Column(name = "Activation_Time")
+    var activationTime: Int
 )

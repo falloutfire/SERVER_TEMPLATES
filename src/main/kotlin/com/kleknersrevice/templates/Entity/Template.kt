@@ -12,20 +12,24 @@ class Template(
     val id: Long,
     @Enumerated(EnumType.STRING)
     var colorScheme: ColorScheme,
-    @Column(name = "x")
-    var xcolor: String,
-    @Column(name = "y")
+    @Column(name = "name")
+    var name: String,
+    /*@Column(name = "y")
     var ycolor: String,
     @Column(name = "z")
-    var zcolor: String,
-    @Column(name = "Delta_X")
+    var zcolor: String,*/
+    @Column(name = "Color")
+    var color: String,
+    /*@Column(name = "Delta_X")
     var xdelta: String,
     @Column(name = "Delta_Y")
     var ydelta: String,
     @Column(name = "Delta_Z")
     var zdelta: String,
-    @Column(name = "Rounding")
-    var rounding: String,
+    @Column(name = "Circularity")
+    var circularity: Double,
+    @Column(name = "Radius")
+    var radius: Double,*/
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Device_ID", nullable = false)

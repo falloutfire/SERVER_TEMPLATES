@@ -13,7 +13,12 @@ import java.util.*
 class FilmServiceImpl(private val filmRepository: FilmRepository) : FilmService {
 
     override fun findFilm(film: Film): Optional<Film> {
-        return filmRepository.findFilm(film.name, film.color, film.chemicalType)
+        return filmRepository.findFilmByChemicalTypeAndLightPermeabilityAndThicknessAndName(
+            film.chemicalType,
+            film.lightPermeability,
+            film.thickness,
+            film.name
+        )
     }
 
     override fun addFilm(film: Film) {

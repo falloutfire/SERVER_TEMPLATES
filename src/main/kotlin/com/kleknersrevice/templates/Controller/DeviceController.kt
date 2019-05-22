@@ -9,10 +9,8 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USE
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.UPDATED
 import com.kleknersrevice.templates.Entity.Device
-import com.kleknersrevice.templates.Entity.OS
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
 import com.kleknersrevice.templates.Service.DeviceService
-import com.kleknersrevice.templates.Service.OsService
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.annotation.Secured
@@ -22,8 +20,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("bd_template/device")
 class DeviceController(
     private val deviceService: DeviceService,
-    private val osService: OsService,
     private val authenticationFacadeService: AuthenticationFacadeService
+    /*private val osService: OsService*/
 ) {
 
     private val log = LoggerFactory.getLogger(DeviceController::class.java)
@@ -37,7 +35,7 @@ class DeviceController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return osService.getOs(device.os).run {
+        /*return osService.getOs(device.os).run {
             if (isPresent) {
                 deviceService.findDevice(device).let { findDevice ->
                     return if (!findDevice.isPresent) {
@@ -49,6 +47,14 @@ class DeviceController(
                 }
             } else {
                 return@run ApiResponse(HttpStatus.NOT_FOUND, "OS $NOT_FOUND")
+            }
+        }*/
+        return deviceService.findDevice(device).run {
+            if (!isPresent) {
+                deviceService.addDevice(device)
+                /*return@run*/ ApiResponse(HttpStatus.CREATED, "Device $CREATED")
+            } else {
+                /*return@run*/ ApiResponse(HttpStatus.OK, "Device $EXIST")
             }
         }
     }
@@ -121,7 +127,7 @@ class DeviceController(
         }
     }
 
-    @Secured(ROLE_ADMIN, ROLE_USER)
+    /*@Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("/find_by_os")
     fun getAllByOs(@RequestBody os: OS): ApiResponse {
         log.info(
@@ -135,5 +141,5 @@ class DeviceController(
                 ApiResponse(HttpStatus.OK, SUCCESS, this)
             else ApiResponse(HttpStatus.NOT_FOUND, "Devices $NOT_FOUND")
         }
-    }
+    }*/
 }

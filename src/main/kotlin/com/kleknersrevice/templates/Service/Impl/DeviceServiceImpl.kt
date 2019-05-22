@@ -1,7 +1,6 @@
 package com.kleknersrevice.templates.Service.Impl
 
 import com.kleknersrevice.templates.Entity.Device
-import com.kleknersrevice.templates.Entity.OS
 import com.kleknersrevice.templates.Repository.DeviceRepository
 import com.kleknersrevice.templates.Service.DeviceService
 import org.springframework.stereotype.Service
@@ -13,12 +12,11 @@ import java.util.*
 class DeviceServiceImpl(private val deviceRepository: DeviceRepository) : DeviceService {
 
     override fun findDevice(device: Device): Optional<Device> {
-        return deviceRepository.findDevice(
+        return deviceRepository.findDeviceByNameAndFocusAndMpAndResolutionAndStabilization(
             device.name,
-            device.os,
-            device.camDiafragma,
-            device.mp,
             device.focus,
+            device.mp,
+            device.resolution,
             device.stabilization
         )
     }
@@ -47,7 +45,7 @@ class DeviceServiceImpl(private val deviceRepository: DeviceRepository) : Device
         return deviceRepository.findById(id)
     }
 
-    override fun getAllByOs(os: OS): List<Device> {
+    /*override fun getAllByOs(os: OS): List<Device> {
         return deviceRepository.getAllDeviceByOs(os)
-    }
+    }*/
 }

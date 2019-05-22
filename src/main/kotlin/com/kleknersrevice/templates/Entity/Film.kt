@@ -12,8 +12,12 @@ class Film(
     val id: Long,
     @Column(name = "Film_Name")
     var name: String,
-    @Column(name = "Color")
-    var color: String,
+    /*@Column(name = "Color")
+    var color: String,*/
+    @Column(name = "Thickness")
+    var thickness: Double,
+    @Column(name = "Light_Permeability")
+    var lightPermeability: Int,
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Chemical_Type_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

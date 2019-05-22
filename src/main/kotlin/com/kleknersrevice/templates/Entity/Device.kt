@@ -1,7 +1,5 @@
 package com.kleknersrevice.templates.Entity
 
-import org.hibernate.annotations.OnDelete
-import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.*
 
 @Entity
@@ -12,13 +10,13 @@ class Device(
     val id: Long,
     @Column(name = "Device_Name")
     var name: String,
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    /*@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "OS_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var os: OS,
-    @Column(name = "Cam_Diafragma")
-    var camDiafragma: Double,
-    @Column(name = "mp  ")
+    var os: OS,*/
+    @Column(name = "Resolution")
+    var resolution: Double,
+    @Column(name = "mp")
     var mp: Long,
     @Column(name = "Focus")
     var focus: Double,
