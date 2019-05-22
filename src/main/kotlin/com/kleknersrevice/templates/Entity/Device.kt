@@ -15,7 +15,7 @@ class Device(
     @OnDelete(action = OnDeleteAction.CASCADE)
     var os: OS,*/
     @Column(name = "Resolution")
-    var resolution: Double,
+    var resolution: String,
     @Column(name = "mp")
     var mp: Long,
     @Column(name = "Focus")
