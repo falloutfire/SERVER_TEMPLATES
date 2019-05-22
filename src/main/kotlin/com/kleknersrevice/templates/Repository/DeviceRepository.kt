@@ -10,7 +10,7 @@ interface DeviceRepository : JpaRepository<Device, Long> {
         name: String,
         focus: Double,
         mp: Long,
-        resolution: Double,
+        resolution: String,
         stabilization: Boolean
     ): Optional<Device>
 }
