@@ -26,7 +26,7 @@ class FilmController(
     private val authenticationFacadeService: AuthenticationFacadeService
 ) {
 
-    private val log = LoggerFactory.getLogger(OsController::class.java)
+    private val log = LoggerFactory.getLogger(SignatureController::class.java)
 
     @Secured(ROLE_ADMIN)
     @PostMapping("")
