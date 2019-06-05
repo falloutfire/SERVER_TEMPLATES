@@ -2,27 +2,21 @@ package com.kleknersrevice.templates.Controller
 
 import org.springframework.http.HttpStatus
 
-class ApiResponse(
-    /* var status: HttpStatus,
-     var message: String*/
-) {
+class ApiResponse() {
 
     lateinit var status: HttpStatus
-    lateinit var message: String
     var result: Any? = null
 
     constructor(
-        status: HttpStatus,
-        message: String
+        status: HttpStatus
     ) : this() {
         this.status = status
-        this.message = message
     }
 
     constructor(
         status: HttpStatus,
-        message: String, result: Any
-    ) : this(status, message) {
+        result: Any
+    ) : this(status) {
         this.result = result
     }
 

@@ -6,7 +6,6 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
-import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.UPDATED
 import com.kleknersrevice.templates.Entity.ChemicalType
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
@@ -54,7 +53,7 @@ class ChemicalTypeController(
             )
         )
         return chemicalTypeService.allChemicalType().run {
-            ApiResponse(HttpStatus.OK, ResponseValues.SUCCESS, this)
+            ApiResponse(HttpStatus.OK, this)
         }
     }
 
@@ -68,7 +67,7 @@ class ChemicalTypeController(
             )
         )
         return chemicalTypeService.getChemicalTypeById(chemicalTypeId).run {
-            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this) else
+            if (isPresent) ApiResponse(HttpStatus.OK, this) else
                 ApiResponse(HttpStatus.NOT_FOUND, "Chemical Type $NOT_FOUND")
         }
     }

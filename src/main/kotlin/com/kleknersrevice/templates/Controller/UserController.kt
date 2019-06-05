@@ -2,7 +2,6 @@ package com.kleknersrevice.templates.Controller
 
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
-import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Entity.User
 import com.kleknersrevice.templates.Entity.UserDto
 import com.kleknersrevice.templates.Service.AppUserService
@@ -32,7 +31,7 @@ class UserController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return userService.findAllUser().run { ApiResponse(HttpStatus.OK, SUCCESS, this) }
+        return userService.findAllUser().run { ApiResponse(HttpStatus.OK, this) }
     }
 
     @Secured(ROLE_ADMIN)
@@ -44,7 +43,7 @@ class UserController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return ApiResponse(HttpStatus.OK, SUCCESS, userService.saveUser(user))
+        return ApiResponse(HttpStatus.OK, userService.saveUser(user))
     }
 
     @Secured(ROLE_ADMIN)
@@ -56,7 +55,7 @@ class UserController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return ApiResponse(HttpStatus.OK, SUCCESS, userService.saveUser(user))
+        return ApiResponse(HttpStatus.OK, userService.saveUser(user))
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
@@ -68,7 +67,7 @@ class UserController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return ApiResponse(HttpStatus.OK, SUCCESS, userService.findOneUser(id))
+        return ApiResponse(HttpStatus.OK, userService.findOneUser(id))
     }
 
     @Secured(ROLE_ADMIN)
@@ -106,6 +105,6 @@ class RoleController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return roleService.findAllRole().run { ApiResponse(HttpStatus.OK, SUCCESS, this) }
+        return roleService.findAllRole().run { ApiResponse(HttpStatus.OK, this) }
     }
 }

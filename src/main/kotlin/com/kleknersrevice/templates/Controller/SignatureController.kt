@@ -38,9 +38,9 @@ class SignatureController(
 
         return signatureService.findSignatureBySignatureDetails(listSignature).run {
             if (isPresent) {
-                ApiResponse(HttpStatus.OK, "SUCCESS", this)
+                ApiResponse(HttpStatus.OK, this)
             } else {
-                ApiResponse(HttpStatus.NOT_FOUND, "NOT_FOUND", this)
+                ApiResponse(HttpStatus.NOT_FOUND, this)
             }
         }
     }

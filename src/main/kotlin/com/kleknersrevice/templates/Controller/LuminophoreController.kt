@@ -6,7 +6,6 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
-import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.UPDATED
 import com.kleknersrevice.templates.Entity.Luminophore
 import com.kleknersrevice.templates.Service.LuminophoreService
@@ -60,7 +59,7 @@ class LuminophoreController(private val luminophoreService: LuminophoreService) 
     @GetMapping("")
     fun allLuminophore(): ApiResponse {
         return luminophoreService.allLuminophore().run {
-            ApiResponse(HttpStatus.OK, SUCCESS, this)
+            ApiResponse(HttpStatus.OK, this)
         }
     }
 
@@ -68,7 +67,7 @@ class LuminophoreController(private val luminophoreService: LuminophoreService) 
     @GetMapping("/{id}")
     fun getLuminophoreById(@PathVariable(value = "id") id: Long): ApiResponse {
         return luminophoreService.getLuminophoreById(id).run {
-            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this) else ApiResponse(
+            if (isPresent) ApiResponse(HttpStatus.OK, this) else ApiResponse(
                 HttpStatus.NOT_FOUND,
                 "Luminophore $NOT_FOUND"
             )

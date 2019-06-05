@@ -6,7 +6,6 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
-import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.UPDATED
 import com.kleknersrevice.templates.Entity.Device
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
@@ -35,26 +34,12 @@ class DeviceController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        /*return osService.getOs(device.os).run {
-            if (isPresent) {
-                deviceService.findDevice(device).let { findDevice ->
-                    return if (!findDevice.isPresent) {
-                        deviceService.addDevice(device)
-                        ApiResponse(HttpStatus.CREATED, "Device $CREATED")
-                    } else {
-                        ApiResponse(HttpStatus.OK, "Device $EXIST")
-                    }
-                }
-            } else {
-                return@run ApiResponse(HttpStatus.NOT_FOUND, "OS $NOT_FOUND")
-            }
-        }*/
         return deviceService.findDevice(device).run {
             if (!isPresent) {
                 deviceService.addDevice(device)
-                /*return@run*/ ApiResponse(HttpStatus.CREATED, "Device $CREATED")
+                ApiResponse(HttpStatus.CREATED, "Device $CREATED")
             } else {
-                /*return@run*/ ApiResponse(HttpStatus.OK, "Device $EXIST")
+                ApiResponse(HttpStatus.OK, "Device $EXIST")
             }
         }
     }
@@ -106,7 +91,7 @@ class DeviceController(
             )
         )
         return deviceService.allDevice().run {
-            ApiResponse(HttpStatus.OK, SUCCESS, this)
+            ApiResponse(HttpStatus.OK, this)
         }
     }
 
@@ -120,26 +105,10 @@ class DeviceController(
             )
         )
         return deviceService.getDeviceById(id).run {
-            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this) else ApiResponse(
+            if (isPresent) ApiResponse(HttpStatus.OK, this) else ApiResponse(
                 HttpStatus.NOT_FOUND,
                 "Device $NOT_FOUND"
             )
         }
     }
-
-    /*@Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping("/find_by_os")
-    fun getAllByOs(@RequestBody os: OS): ApiResponse {
-        log.info(
-            String.format(
-                "received request to get device by id %s",
-                authenticationFacadeService.getAuthentication().principal
-            )
-        )
-        return osService.getOsById(os.id).run {
-            if (isPresent)
-                ApiResponse(HttpStatus.OK, SUCCESS, this)
-            else ApiResponse(HttpStatus.NOT_FOUND, "Devices $NOT_FOUND")
-        }
-    }*/
 }

@@ -6,7 +6,6 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
-import com.kleknersrevice.templates.Controller.ResponseValues.Companion.SUCCESS
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.UPDATED
 import com.kleknersrevice.templates.Entity.ChemicalType
 import com.kleknersrevice.templates.Entity.Film
@@ -75,7 +74,7 @@ class FilmController(
     @GetMapping("")
     fun allFilm(): ApiResponse {
         return filmService.allFilm().run {
-            ApiResponse(HttpStatus.OK, SUCCESS, this)
+            ApiResponse(HttpStatus.OK, this)
         }
     }
 
@@ -83,7 +82,7 @@ class FilmController(
     @GetMapping("/{id}")
     fun getFilmById(@PathVariable(value = "id") id: Long): ApiResponse {
         return filmService.getFilmById(id).run {
-            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this) else ApiResponse(
+            if (isPresent) ApiResponse(HttpStatus.OK, this) else ApiResponse(
                 HttpStatus.NOT_FOUND,
                 "Film $NOT_FOUND"
             )
@@ -94,7 +93,7 @@ class FilmController(
     @GetMapping("/find_by_chemical_type")
     fun getAllByChemicalType(@RequestBody chemicalType: ChemicalType): ApiResponse {
         return chemicalTypeService.getChemicalTypeById(chemicalType.id).run {
-            if (isPresent) ApiResponse(HttpStatus.OK, SUCCESS, this)
+            if (isPresent) ApiResponse(HttpStatus.OK, this)
             else ApiResponse(
                 HttpStatus.NOT_FOUND,
                 "Film $NOT_FOUND"
