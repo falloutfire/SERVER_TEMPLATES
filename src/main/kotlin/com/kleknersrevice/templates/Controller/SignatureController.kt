@@ -80,4 +80,12 @@ class SignatureController(
             } else ApiResponse(HttpStatus.NOT_FOUND, "OS $NOT_FOUND")
         }
     }
+
+    @Secured(ROLE_ADMIN)
+    @GetMapping("")
+    fun getAllSignature(): ApiResponse {
+        return signatureService.findAllSignatures().run {
+            ApiResponse(HttpStatus.OK, this)
+        }
+    }
 }

@@ -14,6 +14,10 @@ class SignatureServiceImpl(
     private val signatureDetailsService: SignatureDetailsService
 ) : SignatureService {
 
+    override fun findAllSignatures(): List<Signature> {
+        return signatureRepository.findAll()
+    }
+
     override fun findSignatureById(id: Long): Optional<Signature> {
         return signatureRepository.findById(id)
     }

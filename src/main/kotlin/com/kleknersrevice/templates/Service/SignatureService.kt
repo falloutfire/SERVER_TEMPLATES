@@ -9,4 +9,5 @@ interface SignatureService {
     fun saveSignature(signature: Signature)
     fun deleteSignatureById(id: Long)
     fun findSignatureById(id: Long): Optional<Signature>
+    fun findAllSignatures(): List<Signature>
 }
