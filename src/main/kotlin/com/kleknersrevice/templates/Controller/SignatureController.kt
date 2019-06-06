@@ -9,7 +9,6 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USE
 import com.kleknersrevice.templates.Entity.Signature
 import com.kleknersrevice.templates.Entity.SignatureDetails
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
-import com.kleknersrevice.templates.Service.SignatureDetailsService
 import com.kleknersrevice.templates.Service.SignatureService
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("bd_template/signature")
 class SignatureController(
-    private val signatureDetailsService: SignatureDetailsService,
     private val signatureService: SignatureService,
     private val authenticationFacadeService: AuthenticationFacadeService
 ) {
@@ -82,7 +80,7 @@ class SignatureController(
     }
 
     @Secured(ROLE_ADMIN)
-    @GetMapping("")
+    @GetMapping("/all")
     fun getAllSignature(): ApiResponse {
         return signatureService.findAllSignatures().run {
             ApiResponse(HttpStatus.OK, this)
