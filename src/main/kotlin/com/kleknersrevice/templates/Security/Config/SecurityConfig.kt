@@ -36,18 +36,12 @@ import javax.sql.DataSource
  */
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(/*prePostEnabled = true,*/ securedEnabled = true)
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Value("\${security.signing-key}")
     private val signingKey: String? = null
-
-    @Value("\${security.encoding-strength}")
-    private val encodingStrength: Int? = null
-
-    @Value("\${security.security-realm}")
-    private val securityRealm: String? = null
 
     @Autowired
     private val jdbcTemplate: JdbcTemplate? = null
@@ -69,15 +63,14 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             //.addFilterBefore(corsFilter(), SessionManagementFilter::class.java)
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            /*.and()
-            .authorizeRequests().anyRequest().authenticated()*/
+            .and()
+            .authorizeRequests().anyRequest().authenticated()
+            .anyRequest().authenticated()
             .and()
             .httpBasic()
-            .realmName(securityRealm)
             .and()
             .csrf()
             .disable()
-
     }
 
     @Bean
@@ -97,7 +90,6 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
     fun tokenStore(): TokenStore {
-        //return new JdbcTokenStore(jdbcTemplate.getDataSource());
         return CustomJdbcTokenStore(jdbcTemplate!!.dataSource!!)
     }
 
@@ -110,20 +102,6 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         defaultTokenServices.setSupportRefreshToken(true)
         return defaultTokenServices
     }
-
-    /*@Bean
-    fun corsFilter(): CorsFilter {
-        val source = UrlBasedCorsConfigurationSource()
-        val config = CorsConfiguration()
-        config.allowCredentials = true
-        config.addAllowedOrigin("*")
-        config.addAllowedHeader("*")
-        config.addAllowedMethod("*")
-        config.maxAge = 3600
-        config.exposedHeaders = arrayListOf("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
-        source.registerCorsConfiguration("/**", config)
-        return CorsFilter(source)
-    }*/*/
 
     @Bean
     fun corsFilterRegistrationBean(): FilterRegistrationBean<*> {

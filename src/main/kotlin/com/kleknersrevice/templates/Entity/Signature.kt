@@ -11,9 +11,11 @@ class Signature(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long,
+    @Column(name = "Description")
+    val description: String,
     @Column(name = "Date")
     val date: Date,
-    @OneToMany(mappedBy = "signature", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "signature", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     var listDetails: List<SignatureDetails>
 )
