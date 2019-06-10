@@ -25,7 +25,7 @@ class SignatureController(
     private val log = LoggerFactory.getLogger(SignatureController::class.java)
 
     @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping("")
+    @GetMapping("/check")
     fun checkSignature(@RequestBody listSignature: List<SignatureDetails>): ApiResponse {
         log.info(
             String.format(
@@ -80,7 +80,7 @@ class SignatureController(
     }
 
     @Secured(ROLE_ADMIN)
-    @GetMapping("/all")
+    @GetMapping("")
     fun getAllSignature(): ApiResponse {
         return signatureService.findAllSignatures().run {
             ApiResponse(HttpStatus.OK, this)
