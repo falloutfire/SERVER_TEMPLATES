@@ -21,15 +21,17 @@ class Signature(
 )
 
 class SignatureFormat(
+    val id: Long,
     val description: String,
     val date: Date,
-    var listDetails: String
+    var signature: String
 ) {
 
     companion object {
         fun format(sign: Signature): SignatureFormat {
             val list = sign.listDetails.map { "${it.firstAngle}.${it.secondAngle}" }
             return SignatureFormat(
+                sign.id,
                 sign.description,
                 sign.date,
                 list.joinToString(prefix = "<", postfix = ">", separator = ":")
