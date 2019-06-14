@@ -19,3 +19,21 @@ class Signature(
     @OnDelete(action = OnDeleteAction.CASCADE)
     var listDetails: List<SignatureDetails>
 )
+
+class SignatureFormat(
+    val description: String,
+    val date: Date,
+    var listDetails: String
+) {
+
+    companion object {
+        fun format(sign: Signature): SignatureFormat {
+            val list = sign.listDetails.map { "${it.firstAngle}.${it.secondAngle}" }
+            return SignatureFormat(
+                sign.description,
+                sign.date,
+                list.joinToString(prefix = "<", postfix = ">", separator = ":")
+            )
+        }
+    }
+}

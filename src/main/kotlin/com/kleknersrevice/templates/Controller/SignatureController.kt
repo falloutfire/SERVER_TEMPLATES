@@ -8,6 +8,7 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADM
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
 import com.kleknersrevice.templates.Entity.Signature
 import com.kleknersrevice.templates.Entity.SignatureDetails
+import com.kleknersrevice.templates.Entity.SignatureFormat
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
 import com.kleknersrevice.templates.Service.SignatureService
 import org.slf4j.LoggerFactory
@@ -85,5 +86,12 @@ class SignatureController(
         return signatureService.findAllSignatures().run {
             ApiResponse(HttpStatus.OK, this)
         }
+    }
+
+    @Secured(ROLE_ADMIN)
+    @GetMapping("/format")
+    fun getAllSignatureFormated(): ApiResponse {
+        val list = signatureService.findAllSignatures()
+        return ApiResponse(HttpStatus.OK, list.map { SignatureFormat.format(it) })
     }
 }
