@@ -64,7 +64,7 @@ class SignatureController(
     }
 
     @Secured(ROLE_ADMIN)
-    @PutMapping("")
+    @PutMapping("/format")
     fun saveSignature(@RequestBody signature: SignatureFormat): ApiResponse {
         log.info(
             String.format(
