@@ -69,7 +69,7 @@ class SignatureController(
     fun saveSignature(@RequestBody signature: SignatureFormat): ApiResponse {
         log.info(
             String.format(
-                "received request to post signature %s",
+                "received request to put signature %s",
                 authenticationFacadeService.getAuthentication().principal
             )
         )
