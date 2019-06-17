@@ -77,13 +77,13 @@ create table oauth_client_details (
 );
 drop table if exists oauth_access_token;
 create table oauth_access_token (
-                                  token_id VARCHAR(255),
-                                  token bytea,
-                                  authentication_id VARCHAR(255),
-                                  user_name VARCHAR(255),
-                                  client_id VARCHAR(255),
-                                  authentication bytea,
-                                  refresh_token VARCHAR(255)
+                                    token_id          VARCHAR(255),
+                                    token             bytea,
+                                    authentication_id VARCHAR(255) PRIMARY KEY,
+                                    user_name         VARCHAR(255),
+                                    client_id         VARCHAR(255),
+                                    authentication    bytea,
+                                    refresh_token     VARCHAR(255)
 );
 
 create index oauth_access_token_id on oauth_access_token(token_id);
