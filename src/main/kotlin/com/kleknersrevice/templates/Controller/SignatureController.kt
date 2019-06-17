@@ -64,6 +64,25 @@ class SignatureController(
     }
 
     @Secured(ROLE_ADMIN)
+    @PutMapping("")
+    fun saveSignature(@RequestBody signature: SignatureFormat): ApiResponse {
+        log.info(
+            String.format(
+                "received request to post signature %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
+        return signatureService.findSignatureById(signature.id).run {
+            if (!isPresent) {
+                signatureService.saveSignature(signature)
+                ApiResponse(HttpStatus.CREATED, "SIGNATURE $CREATED")
+            } else {
+                ApiResponse(HttpStatus.OK, "SIGNATURE $EXIST")
+            }
+        }
+    }
+
+    @Secured(ROLE_ADMIN)
     @DeleteMapping("/{id}")
     fun deleteSignature(@PathVariable(value = "id") osId: Long): ApiResponse {
         log.info(

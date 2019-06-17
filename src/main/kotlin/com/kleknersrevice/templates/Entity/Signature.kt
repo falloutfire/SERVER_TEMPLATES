@@ -12,9 +12,9 @@ class Signature(
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long,
     @Column(name = "Description")
-    val description: String,
+    var description: String,
     @Column(name = "Date")
-    val date: Date,
+    var date: Date,
     @OneToMany(mappedBy = "signature", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     var listDetails: List<SignatureDetails>
@@ -34,7 +34,7 @@ class SignatureFormat(
                 sign.id,
                 sign.description,
                 sign.date,
-                list.joinToString(prefix = "<", postfix = ">", separator = ":")
+                list.joinToString(prefix = "", postfix = "", separator = ":")
             )
         }
     }

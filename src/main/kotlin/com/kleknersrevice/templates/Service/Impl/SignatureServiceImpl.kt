@@ -2,6 +2,7 @@ package com.kleknersrevice.templates.Service.Impl
 
 import com.kleknersrevice.templates.Entity.Signature
 import com.kleknersrevice.templates.Entity.SignatureDetails
+import com.kleknersrevice.templates.Entity.SignatureFormat
 import com.kleknersrevice.templates.Repository.SignatureRepository
 import com.kleknersrevice.templates.Service.SignatureDetailsService
 import com.kleknersrevice.templates.Service.SignatureService
@@ -13,6 +14,12 @@ class SignatureServiceImpl(
     private val signatureRepository: SignatureRepository,
     private val signatureDetailsService: SignatureDetailsService
 ) : SignatureService {
+    override fun saveSignature(signatureFormat: SignatureFormat) {
+        val signature = signatureRepository.findById(signatureFormat.id).get()
+        signature.description = signatureFormat.description
+        signature.date = signatureFormat.date
+        signatureRepository.saveAndFlush(signature)
+    }
 
     override fun findAllSignatures(): List<Signature> {
         return signatureRepository.findAll()
