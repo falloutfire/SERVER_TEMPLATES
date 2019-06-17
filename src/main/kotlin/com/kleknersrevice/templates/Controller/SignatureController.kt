@@ -100,17 +100,29 @@ class SignatureController(
         }
     }
 
-    @Secured(ROLE_ADMIN)
+    @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("")
     fun getAllSignature(): ApiResponse {
+        log.info(
+            String.format(
+                "received request to get all signature %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
         return signatureService.findAllSignatures().run {
             ApiResponse(HttpStatus.OK, this)
         }
     }
 
-    @Secured(ROLE_ADMIN)
+    @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("/format")
     fun getAllSignatureFormated(): ApiResponse {
+        log.info(
+            String.format(
+                "received request to get all format signature %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
         val list = signatureService.findAllSignatures()
         return ApiResponse(HttpStatus.OK, list.map { SignatureFormat.format(it) })
     }

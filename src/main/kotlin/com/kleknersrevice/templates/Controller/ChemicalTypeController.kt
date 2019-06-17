@@ -24,12 +24,12 @@ class ChemicalTypeController(
 
     private val log = LoggerFactory.getLogger(ChemicalTypeController::class.java)
 
-    @Secured(ResponseValues.ROLE_ADMIN)
+    @Secured(ROLE_ADMIN)
     @PostMapping("")
     fun addChemicalType(@RequestBody chemicalType: ChemicalType): ApiResponse {
         log.info(
             String.format(
-                "received request to list os %s",
+                "received request to save ChemicalType %s",
                 authenticationFacadeService.getAuthentication().principal
             )
         )
@@ -48,7 +48,7 @@ class ChemicalTypeController(
     fun allChemicalTypes(): ApiResponse {
         log.info(
             String.format(
-                "received request to list os %s",
+                "received request to list ChemicalType %s",
                 authenticationFacadeService.getAuthentication().principal
             )
         )
@@ -62,7 +62,7 @@ class ChemicalTypeController(
     fun getChemicalTypeById(@PathVariable(value = "id") chemicalTypeId: Long): ApiResponse {
         log.info(
             String.format(
-                "received request to get os by id %s",
+                "received request to get ChemicalType by id %s",
                 authenticationFacadeService.getAuthentication().principal
             )
         )
@@ -77,7 +77,7 @@ class ChemicalTypeController(
     fun deleteChemicalTypeById(@PathVariable(value = "id") chemicalTypeId: Long): ApiResponse {
         log.info(
             String.format(
-                "received request to delete os %s",
+                "received request to delete ChemicalType %s",
                 authenticationFacadeService.getAuthentication().principal
             )
         )
@@ -94,7 +94,7 @@ class ChemicalTypeController(
     fun updateChemicalType(@RequestBody chemicalType: ChemicalType): ApiResponse {
         log.info(
             String.format(
-                "received request to update os %s",
+                "received request to update ChemicalType %s",
                 authenticationFacadeService.getAuthentication().principal
             )
         )
