@@ -37,7 +37,7 @@ import javax.sql.DataSource
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(/*prePostEnabled = true,*/ securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Value("\${security.signing-key}")
@@ -60,7 +60,6 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
-            //.addFilterBefore(corsFilter(), SessionManagementFilter::class.java)
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
@@ -86,8 +85,6 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
         web.ignoring().antMatchers(HttpMethod.OPTIONS)
     }
 
-
-
     @Bean
     fun tokenStore(): TokenStore {
         return CustomJdbcTokenStore(jdbcTemplate!!.dataSource!!)
@@ -95,7 +92,6 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Bean
     @Primary
-    //Making this primary to avoid any accidental duplication with another token service instance of the same name
     fun tokenServices(): DefaultTokenServices {
         val defaultTokenServices = DefaultTokenServices()
         defaultTokenServices.setTokenStore(tokenStore())
