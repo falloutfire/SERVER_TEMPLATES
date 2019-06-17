@@ -6,6 +6,7 @@ import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
+import com.kleknersrevice.templates.Controller.ResponseValues.Companion.UPDATED
 import com.kleknersrevice.templates.Entity.Signature
 import com.kleknersrevice.templates.Entity.SignatureDetails
 import com.kleknersrevice.templates.Entity.SignatureFormat
@@ -73,11 +74,11 @@ class SignatureController(
             )
         )
         return signatureService.findSignatureById(signature.id).run {
-            if (!isPresent) {
+            if (isPresent) {
                 signatureService.saveSignature(signature)
-                ApiResponse(HttpStatus.CREATED, "SIGNATURE $CREATED")
+                ApiResponse(HttpStatus.CREATED, "SIGNATURE $UPDATED")
             } else {
-                ApiResponse(HttpStatus.OK, "SIGNATURE $EXIST")
+                ApiResponse(HttpStatus.OK, "SIGNATURE $NOT_FOUND")
             }
         }
     }
