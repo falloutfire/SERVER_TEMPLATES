@@ -51,7 +51,16 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
                 }
             }
         }
-        userRepository.saveAndFlush(user)
+        userRepository.saveAndFlush(
+            User(
+                username = user.username,
+                password = user.password,
+                firstName = user.firstName,
+                lastName = user.lastName,
+                email = user.email,
+                roles = user.roles
+            )
+        )
     }
 
     override fun deleteUser(id: Long) {
