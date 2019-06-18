@@ -9,8 +9,6 @@ import com.kleknersrevice.templates.Service.AppUserService
 import com.kleknersrevice.templates.Service.RoleService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -32,7 +30,7 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
     private val passwordEncoder: BCryptPasswordEncoder? = null
 
     override fun saveUser(user: User) {
-        val userWithDuplicateUsername = userRepository!!.findByUsername(user.username!!)
+        val userWithDuplicateUsername = userRepository!!.findByUserName(user.username)
         if (userWithDuplicateUsername.isPresent && user.id != userWithDuplicateUsername.get().id) {
             log.error(String.format("Duplicate username ", user.username))
             throw RuntimeException("Duplicate username.")
@@ -42,7 +40,7 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
             log.error(String.format("Duplicate email ", user.email))
             throw RuntimeException("Duplicate email.")
         }
-        user.password = passwordEncoder!!.encode(user.password!!)
+        user.userPassword = passwordEncoder!!.encode(user.password)
         val roleTypes = ArrayList<Role>()
         user.roles!!.stream().map { role ->
             roleRepository?.findRoleById(role.id!!).let {
@@ -51,30 +49,7 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
                 }
             }
         }
-        if (user.id != null) {
-            userRepository.saveAndFlush(
-                User(
-                    id = user.id,
-                    username = user.username,
-                    password = user.password,
-                    firstName = user.firstName,
-                    lastName = user.lastName,
-                    email = user.email,
-                    roles = user.roles
-                )
-            )
-        } else {
-            userRepository.saveAndFlush(
-                User(
-                    username = user.username,
-                    password = user.password,
-                    firstName = user.firstName,
-                    lastName = user.lastName,
-                    email = user.email,
-                    roles = user.roles
-                )
-            )
-        }
+        userRepository.save(user)
     }
 
     override fun deleteUser(id: Long) {
@@ -93,13 +68,9 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
 
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(s: String): UserDetails {
-        val user = userRepository?.findByUsername(s)
+        val user = userRepository?.findByUserName(s)
             ?: throw UsernameNotFoundException(String.format("The username %s doesn't exist", s))
-
-        val authorities = ArrayList<GrantedAuthority>()
-        user.get().roles?.forEach { role -> authorities.add(SimpleGrantedAuthority(role.roleName)) }
-
-        return org.springframework.security.core.userdetails.User(user.get().username, user.get().password, authorities)
+        return user.get()
     }
 
     companion object {
@@ -116,7 +87,7 @@ class RoleServiceImpl : RoleService {
     private val roleRepository: RoleRepository? = null
 
     override fun findAllRole(): List<Role> {
-        return roleRepository?.findAll()!!
+        return roleRepository?.findAll() as List<Role>
     }
 
 }

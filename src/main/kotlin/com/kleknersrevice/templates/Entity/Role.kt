@@ -1,10 +1,11 @@
 package com.kleknersrevice.templates.Entity
 
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
 @Table(name = "app_role")
-class Role {
+class Role : Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null

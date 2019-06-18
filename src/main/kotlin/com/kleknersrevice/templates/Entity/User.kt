@@ -1,5 +1,8 @@
 package com.kleknersrevice.templates.Entity
 
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
 
 @Entity
@@ -10,10 +13,10 @@ class User(
     var id: Long? = null,
 
     @Column(name = "username")
-    var username: String? = null,
+    var userName: String? = null,
 
     @Column(name = "password")
-    var password: String? = null,
+    var userPassword: String? = null,
 
     @Column(name = "first_name")
     var firstName: String? = null,
@@ -35,20 +38,72 @@ class User(
         inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
     )
     var roles: List<Role>? = null
-)
+) : UserDetails {
+
+    override fun getAuthorities(): Collection<GrantedAuthority> {
+        return ArrayList<GrantedAuthority>().also {
+            it.addAll(this.roles!!.map { role -> SimpleGrantedAuthority(role.roleName) })
+        }
+    }
+
+    override fun isEnabled(): Boolean {
+        return true
+    }
+
+    override fun getUsername(): String {
+        return this.userName!!
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        return true
+    }
+
+    override fun getPassword(): String {
+        return this.userPassword!!
+    }
+
+    override fun isAccountNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isAccountNonLocked(): Boolean {
+        return true
+    }
+}
 
 class UserDto(
     var id: Long? = null,
-    var username: String? = null,
+    var login: String? = null,
     var firstName: String? = null,
     var lastName: String? = null,
-    var email: String? = null,
-    var roles: List<Role>? = null
+    var roles: List<Role>? = null,
+    var password: String? = null,
+    var email: String? = null
 ) {
+
+    fun toUser(): User {
+        return User(
+            id,
+            login,
+            password,
+            firstName,
+            lastName,
+            email,
+            roles
+        )
+    }
 
     companion object {
         fun toUserDto(user: User): UserDto {
-            return UserDto(user.id, user.username, user.firstName, user.lastName, user.email, user.roles)
+            return UserDto(
+                user.id,
+                user.username,
+                user.firstName,
+                user.lastName,
+                user.roles,
+                user.password,
+                user.email
+            )
         }
     }
 }
