@@ -51,16 +51,30 @@ class AppUserDetailsService : UserDetailsService, AppUserService {
                 }
             }
         }
-        userRepository.saveAndFlush(
-            User(
-                username = user.username,
-                password = user.password,
-                firstName = user.firstName,
-                lastName = user.lastName,
-                email = user.email,
-                roles = user.roles
+        if (user.id != null) {
+            userRepository.saveAndFlush(
+                User(
+                    id = user.id,
+                    username = user.username,
+                    password = user.password,
+                    firstName = user.firstName,
+                    lastName = user.lastName,
+                    email = user.email,
+                    roles = user.roles
+                )
             )
-        )
+        } else {
+            userRepository.saveAndFlush(
+                User(
+                    username = user.username,
+                    password = user.password,
+                    firstName = user.firstName,
+                    lastName = user.lastName,
+                    email = user.email,
+                    roles = user.roles
+                )
+            )
+        }
     }
 
     override fun deleteUser(id: Long) {
