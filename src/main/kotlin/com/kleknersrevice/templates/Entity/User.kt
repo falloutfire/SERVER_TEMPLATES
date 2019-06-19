@@ -21,11 +21,11 @@ class User(
     @Column(name = "first_name")
     var firstName: String? = null,
 
-    @Column(name = "last_name")
-    var lastName: String? = null,
-
     @Column(name = "email")
     var email: String? = null,
+
+    @Column(name = "last_name")
+    var lastName: String? = null,
 
     /**
      * Roles are being eagerly loaded here because
@@ -75,10 +75,10 @@ class UserDto(
     var id: Long? = null,
     var login: String? = null,
     var firstName: String? = null,
+    var email: String? = null,
     var lastName: String? = null,
     var roles: List<Role>? = null,
-    var password: String? = null,
-    var email: String? = null
+    var password: String? = null
 ) {
 
     fun toUser(): User {
@@ -87,8 +87,8 @@ class UserDto(
             login,
             password,
             firstName,
-            lastName,
             email,
+            lastName,
             roles
         )
     }
@@ -99,10 +99,10 @@ class UserDto(
                 user.id,
                 user.username,
                 user.firstName,
+                user.email,
                 user.lastName,
                 user.roles,
-                user.password,
-                user.email
+                user.password
             )
         }
     }
