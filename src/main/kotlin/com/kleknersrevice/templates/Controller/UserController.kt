@@ -2,7 +2,6 @@ package com.kleknersrevice.templates.Controller
 
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
-import com.kleknersrevice.templates.Entity.User
 import com.kleknersrevice.templates.Entity.UserDto
 import com.kleknersrevice.templates.Service.AppUserService
 import com.kleknersrevice.templates.Service.AuthenticationFacadeService
@@ -36,26 +35,26 @@ class UserController(
 
     @Secured(ROLE_ADMIN)
     @PostMapping
-    fun create(@RequestBody user: User): ApiResponse {
+    fun create(@RequestBody user: UserDto): ApiResponse {
         log.info(
             String.format(
                 "received request to create user %s",
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return ApiResponse(HttpStatus.OK, userService.saveUser(user))
+        return ApiResponse(HttpStatus.OK, userService.saveUser(user.toUser()))
     }
 
     @Secured(ROLE_ADMIN)
     @PutMapping
-    fun save(@RequestBody user: User): ApiResponse {
+    fun save(@RequestBody user: UserDto): ApiResponse {
         log.info(
             String.format(
                 "received request to create user %s",
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return ApiResponse(HttpStatus.OK, userService.saveUser(user))
+        return ApiResponse(HttpStatus.OK, userService.saveUser(user.toUser()))
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
