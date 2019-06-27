@@ -9,42 +9,42 @@ import javax.persistence.*
 class Template(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Long,
+    val Id: Long,
     @Enumerated(EnumType.STRING)
-    var colorScheme: ColorScheme,
+    var ColorScheme: ColorScheme,
     @Column(name = "name")
-    var name: String,
-    /*@Column(name = "y")
-    var ycolor: String,
-    @Column(name = "z")
-    var zcolor: String,*/
-    @Column(name = "Color")
-    var color: String,
-    /*@Column(name = "Delta_X")
-    var xdelta: String,
-    @Column(name = "Delta_Y")
-    var ydelta: String,
-    @Column(name = "Delta_Z")
-    var zdelta: String,
+    var Name: String,
+    @Column(name = "Lower_Color_Bound")
+    var LowerColorBound: Int,
+    @Column(name = "Points")
+    var Points: Int,
+    @Column(name = "Min_Radius")
+    var MinRadius: String,
+    @Column(name = "Triangles")
+    var Triangles: Int,
+    @Column(name = "Max_Radius")
+    var MaxRadius: String,
+    @Column(name = "Max_Circularity")
+    var MaxCircularity: String,
     @Column(name = "Circularity")
-    var circularity: Double,
+    var Circularity: Double,
     @Column(name = "Radius")
-    var radius: Double,*/
+    var Radius: Double,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Device_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var device: Device,
+    var DeviceId: Device,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Film_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var film: Film,
+    var PolymerId: Film,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Luminophore_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var luminophore: Luminophore
+    var LuminophoreId: Luminophore
 )
 
 class TemplateContext(var device: Device, var film: Film, var luminophore: Luminophore)
