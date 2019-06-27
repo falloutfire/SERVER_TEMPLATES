@@ -34,17 +34,17 @@ class Template(
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Device_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var device: Device,
+    var DeviceId: Device,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Film_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var film: Film,
+    var PolymerId: Film,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Luminophore_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var luminophore: Luminophore
+    var LuminophoreId: Luminophore
 )
 
 class TemplateContext(var device: Device, var film: Film, var luminophore: Luminophore)
