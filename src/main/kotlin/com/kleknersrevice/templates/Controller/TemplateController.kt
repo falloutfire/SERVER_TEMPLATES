@@ -169,18 +169,6 @@ class TemplateController(
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping("/find_by_color/{colorScheme}")
-    fun getAllByColorScheme(@PathVariable(value = "colorScheme") colorScheme: ColorScheme): ApiResponse {
-        log.info(
-            String.format(
-                "received request to get by colorScheme Template %s",
-                authenticationFacadeService.getAuthentication().principal
-            )
-        )
-        return ApiResponse(HttpStatus.OK, templateService.getAllByColorScheme(colorScheme))
-    }
-
-    @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("/find_by_all")
     fun getAllByAllParameters(@RequestBody templateContext: TemplateContext): ApiResponse {
         log.info(

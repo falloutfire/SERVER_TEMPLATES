@@ -1,6 +1,9 @@
 package com.kleknersrevice.templates.Service.Impl
 
-import com.kleknersrevice.templates.Entity.*
+import com.kleknersrevice.templates.Entity.Device
+import com.kleknersrevice.templates.Entity.Film
+import com.kleknersrevice.templates.Entity.Luminophore
+import com.kleknersrevice.templates.Entity.Template
 import com.kleknersrevice.templates.Repository.TemplateRepository
 import com.kleknersrevice.templates.Service.TemplateService
 import org.springframework.stereotype.Service
@@ -59,10 +62,6 @@ class TemplateServiceImpl(private val templateRepository: TemplateRepository) : 
 
     override fun getAllByFilm(film: Film): List<Template> {
         return templateRepository.getAllTemplateByFilm(film)
-    }
-
-    override fun getAllByColorScheme(colorScheme: ColorScheme): List<Template> {
-        return templateRepository.getAllTemplateByColorScheme(colorScheme)
     }
 
     override fun getAllByAllParameters(device: Device, film: Film, luminophore: Luminophore): List<Template> {
