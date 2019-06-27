@@ -34,7 +34,7 @@ class UserController(
     }
 
     @Secured(ROLE_ADMIN)
-    @PostMapping("/")
+    @PostMapping("")
     fun create(@RequestBody user: UserDto): ApiResponse {
         log.info(
             String.format(
@@ -58,7 +58,7 @@ class UserController(
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping(value = ["{id}"])
+    @GetMapping(value = ["/{id}"])
     fun getUser(@PathVariable id: Long): ApiResponse {
         log.info(
             String.format(
