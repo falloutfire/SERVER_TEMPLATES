@@ -2,7 +2,6 @@ package com.kleknersrevice.templates.Controller
 
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.CREATED
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.DELETED
-import com.kleknersrevice.templates.Controller.ResponseValues.Companion.EXIST
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.NOT_FOUND
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_ADMIN
 import com.kleknersrevice.templates.Controller.ResponseValues.Companion.ROLE_USER
@@ -54,14 +53,14 @@ class SignatureController(
                 authenticationFacadeService.getAuthentication().principal
             )
         )
-        return signatureService.findSignatureBySignatureDetails(signature.listDetails).run {
-            if (!isPresent) {
+        /*return signatureService.findSignatureBySignatureDetails(signature.listDetails).run {
+            if (!isPresent) {*/
                 signatureService.saveSignature(signature)
-                ApiResponse(HttpStatus.CREATED, "SIGNATURE $CREATED")
-            } else {
-                ApiResponse(HttpStatus.OK, "SIGNATURE $EXIST")
-            }
+        return ApiResponse(HttpStatus.CREATED, "SIGNATURE $CREATED")
+        /*} else {
+            ApiResponse(HttpStatus.OK, "SIGNATURE $EXIST")
         }
+    }*/
     }
 
     @Secured(ROLE_ADMIN)
