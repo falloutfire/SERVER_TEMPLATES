@@ -34,7 +34,7 @@ class UserController(
     }
 
     @Secured(ROLE_ADMIN)
-    @PostMapping("")
+    @PostMapping("/")
     fun create(@RequestBody user: UserDto): ApiResponse {
         log.info(
             String.format(
