@@ -11,7 +11,7 @@ class Template(
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long,
     @Enumerated(EnumType.STRING)
-    var colorScheme: ColorScheme,
+    var colorScheme: ColorScheme? = null,
     @Column(name = "name")
     var name: String,
     @Column(name = "Lower_Color_Bound")

@@ -12,11 +12,10 @@ import java.util.*
 class TemplateServiceImpl(private val templateRepository: TemplateRepository) : TemplateService {
 
     override fun findTemplate(template: Template): Optional<Template> {
-        return templateRepository.findTemplateByDeviceAndFilmAndLuminophoreAndColorSchemeAndNameAndCircularityAndLowerColorBoundAndPointsAndRadiusAndTriangles(
+        return templateRepository.findTemplateByDeviceAndFilmAndLuminophoreAndNameAndCircularityAndLowerColorBoundAndPointsAndRadiusAndTriangles(
             template.device,
             template.film,
             template.luminophore,
-            template.colorScheme,
             template.name,
             template.circularity,
             template.lowerColorBound,
