@@ -32,17 +32,17 @@ class Template(
     var radius: Double? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Device_ID", nullable = false)
+    @JoinColumn(name = "Device_ID", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     var device: Device? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Film_ID", nullable = false)
+    @JoinColumn(name = "Film_ID", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     var film: Film? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Luminophore_ID", nullable = false)
+    @JoinColumn(name = "Luminophore_ID", nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     var luminophore: Luminophore? = null
 )

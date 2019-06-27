@@ -35,7 +35,7 @@ class TemplateController(
             )
         )
 
-        deviceService.findDevice(template.device).run {
+        /*deviceService.findDevice(template.device).run {
             if (!isPresent) return ApiResponse(HttpStatus.NOT_FOUND, "Device $NOT_FOUND")
         }
         filmService.findFilm(template.film)
@@ -45,7 +45,7 @@ class TemplateController(
         luminophoreService.findLuminophore(template.luminophore)
             .run {
                 if (!isPresent) return ApiResponse(HttpStatus.NOT_FOUND, "Luminophore $NOT_FOUND")
-            }
+            }*/
         templateService.findTemplate(template).run {
             return if (!isPresent) {
                 templateService.addTemplate(template)
