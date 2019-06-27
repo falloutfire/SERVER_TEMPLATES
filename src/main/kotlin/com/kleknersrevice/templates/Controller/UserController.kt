@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("/users/")
+@RequestMapping("/users")
 class UserController(
     private val userService: AppUserService,
     private val authenticationFacadeService: AuthenticationFacadeService
@@ -22,7 +22,7 @@ class UserController(
     private val log = LoggerFactory.getLogger(UserController::class.java)
 
     @Secured(ROLE_ADMIN)
-    @GetMapping
+    @GetMapping("")
     fun listUser(): ApiResponse {
         log.info(
             String.format(
@@ -34,7 +34,7 @@ class UserController(
     }
 
     @Secured(ROLE_ADMIN)
-    @PostMapping
+    @PostMapping("")
     fun create(@RequestBody user: UserDto): ApiResponse {
         log.info(
             String.format(
@@ -46,7 +46,7 @@ class UserController(
     }
 
     @Secured(ROLE_ADMIN)
-    @PutMapping
+    @PutMapping("")
     fun save(@RequestBody user: UserDto): ApiResponse {
         log.info(
             String.format(
@@ -70,7 +70,7 @@ class UserController(
     }
 
     @Secured(ROLE_ADMIN)
-    @DeleteMapping(value = ["{id}"])
+    @DeleteMapping("/{id}")
     fun delete(@PathVariable(value = "id") id: Long?): List<UserDto> {
         log.info(
             String.format(
