@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/users/")
 class UserController(
     private val userService: AppUserService,
     private val authenticationFacadeService: AuthenticationFacadeService
@@ -58,7 +58,7 @@ class UserController(
     }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
-    @GetMapping(value = ["/{id}"])
+    @GetMapping(value = ["{id}"])
     fun getUser(@PathVariable id: Long): ApiResponse {
         log.info(
             String.format(
@@ -70,7 +70,7 @@ class UserController(
     }
 
     @Secured(ROLE_ADMIN)
-    @DeleteMapping(value = ["/{id}"])
+    @DeleteMapping(value = ["{id}"])
     fun delete(@PathVariable(value = "id") id: Long?): List<UserDto> {
         log.info(
             String.format(
