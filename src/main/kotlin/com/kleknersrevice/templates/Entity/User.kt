@@ -73,7 +73,7 @@ class User(
 
 class UserDto(
     var id: Long? = null,
-    var login: String? = null,
+    var userName: String? = null,
     var firstName: String? = null,
     var email: String? = null,
     var lastName: String? = null,
@@ -84,7 +84,7 @@ class UserDto(
     fun toUser(): User {
         return User(
             id,
-            login,
+            userName,
             password,
             firstName,
             email,
