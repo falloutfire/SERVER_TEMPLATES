@@ -11,10 +11,10 @@ interface TemplateRepository : JpaRepository<Template, Long> {
     fun getAllTemplateByFilm(film: Film): List<Template>
     fun getAllTemplateByColorScheme(colorScheme: ColorScheme): List<Template>
     fun findAllByDeviceAndFilmAndLuminophore(device: Device, film: Film, luminophore: Luminophore): List<Template>
-    fun findTemplateByDeviceIdAndPolymerIdAndLuminophoreIdAndColorSchemeAndNameAndCircularityAndLowerColorBoundAndPointsAndRadiusAndTriangles(
-        deviceId: Device,
-        polymerId: Film,
-        luminophoreId: Luminophore,
+    fun findTemplateByDeviceAndFilmAndLuminophoreAndColorSchemeAndNameAndCircularityAndLowerColorBoundAndPointsAndRadiusAndTriangles(
+        device: Device,
+        film: Film,
+        luminophore: Luminophore,
         colorScheme: ColorScheme,
         name: String,
         circularity: Double,
