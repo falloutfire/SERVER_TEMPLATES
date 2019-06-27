@@ -13,38 +13,38 @@ class Template(
     @Enumerated(EnumType.STRING)
     var colorScheme: ColorScheme? = null,
     @Column(name = "name")
-    var name: String,
+    var name: String? = null,
     @Column(name = "Lower_Color_Bound")
-    var lowerColorBound: Int,
+    var lowerColorBound: Int? = null,
     @Column(name = "Points")
-    var points: Int,
+    var points: Int? = null,
     @Column(name = "Min_Radius")
-    var minRadius: String,
+    var minRadius: String? = null,
     @Column(name = "Triangles")
-    var triangles: Int,
+    var triangles: Int? = null,
     @Column(name = "Max_Radius")
-    var maxRadius: String,
+    var maxRadius: String? = null,
     @Column(name = "Max_Circularity")
-    var maxCircularity: String,
+    var maxCircularity: String? = null,
     @Column(name = "Circularity")
-    var circularity: Double,
+    var circularity: Double? = null,
     @Column(name = "Radius")
-    var radius: Double,
+    var radius: Double? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Device_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var device: Device,
+    var device: Device? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Film_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var film: Film,
+    var film: Film? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Luminophore_ID", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    var luminophore: Luminophore
+    var luminophore: Luminophore? = null
 )
 
 class TemplateContext(var device: Device, var film: Film, var luminophore: Luminophore)
