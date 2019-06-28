@@ -98,6 +98,23 @@ class SignatureController(
             } else ApiResponse(HttpStatus.NOT_FOUND, "OS $NOT_FOUND")
         }
     }
+    
+    @Secured(ROLE_ADMIN)
+    @DeleteMapping("/format/{id}")
+    fun deleteSignatureFormat(@PathVariable(value = "id") osId: Long): ApiResponse {
+        log.info(
+            String.format(
+                "received request to delete signature %s",
+                authenticationFacadeService.getAuthentication().principal
+            )
+        )
+        return signatureService.findSignatureById(osId).run {
+            if (isPresent) {
+                signatureService.deleteSignatureById(osId)
+                ApiResponse(HttpStatus.OK, "OS $DELETED")
+            } else ApiResponse(HttpStatus.NOT_FOUND, "OS $NOT_FOUND")
+        }
+    }
 
     @Secured(ROLE_ADMIN, ROLE_USER)
     @GetMapping("")
